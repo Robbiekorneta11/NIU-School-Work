@@ -6,7 +6,7 @@ CSCI 241 - Intermediate Programming - Grade: B
     * implementation of linear and nonlinear data structures, recursion, searching and sorting 
     * algorithms, and algorithmic complexity analysis.
     
-CSCI 321 - iOS Mobile Device Programming
+CSCI 321 - iOS Mobile Device Programming - Grade: A
     * Comprehensive introduction to building applications for mobile devices that use Apple’s 
     * iOS operating system. Topics covered will include application of Model-View-Controller 
     * design architecture, graphics, rich media content, multithreading, networking and interaction 
