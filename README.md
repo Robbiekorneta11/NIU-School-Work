@@ -11,6 +11,10 @@ CSCI 321 - iOS Mobile Device Programming - Grade: A
     * iOS operating system. Topics covered will include application of Model-View-Controller 
     * design architecture, graphics, rich media content, multithreading, networking and interaction 
     * with hardware sensors. 
+    
+CSCI 330 - UNIX and Network Programming - Grade: A
+    * UNIX system usage and commands. Shell script programming. Network programming 
+    * concepts and protocols. System call level and basic network programming in C++.
 
 CSCI 340 - Data Structures and Algorithm Analysis - Grade: A
     * Application of analysis and design techniques to nonnumeric algorithms acting on data 
