@@ -1,0 +1,510 @@
+                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2
+ 
+23.29.06 JOB08978 ---- FRIDAY,    17 JUL 2020 ----
+23.29.06 JOB08978  IRR010I  USERID KC03CA7  IS ASSIGNED TO THIS JOB.
+23.29.06 JOB08978  ICH70001I KC03CA7  LAST ACCESS AT 23:25:46 ON FRIDAY, JULY 17, 2020
+23.29.06 JOB08978  $HASP373 KC03CA7A STARTED - INIT 2    - CLASS A        - SYS 2964
+23.29.06 JOB08978  $HASP395 KC03CA7A ENDED - RC=0000
+------ JES2 JOB STATISTICS ------
+  17 JUL 2020 JOB EXECUTION DATE
+          215 CARDS READ
+          312 SYSOUT PRINT RECORDS
+            0 SYSOUT PUNCH RECORDS
+           29 SYSOUT SPOOL KBYTES
+         0.00 MINUTES EXECUTION TIME
+        1 //KC03CA7A JOB ,'ROBBIE KORNETA',MSGCLASS=H                             JOB08978
+        2 //JSTEP01  EXEC PGM=ASSIST
+        3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR
+        4 //SYSPRINT DD SYSOUT=*
+        5 //SYSIN    DD *
+          //*
+        6 //FT05F001 DD DSN=KC02322.CSCI360.DATASU20(DATA5),DISP=SHR
+          //*
+        7 //FT06F001 DD SYSOUT=*
+          //*
+        8 //SYSPRINT DD SYSOUT=*
+        9 //
+ICH70001I KC03CA7  LAST ACCESS AT 23:25:46 ON FRIDAY, JULY 17, 2020
+IEFA111I KC03CA7A IS USING THE FOLLOWING JOB RELATED SETTINGS:
+         SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+IEF236I ALLOC. FOR KC03CA7A JSTEP01
+IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF237I JES2 ALLOCATED TO SYSIN
+IGD103I SMS ALLOCATED TO DDNAME FT05F001
+IEF237I JES2 ALLOCATED TO FT06F001
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF142I KC03CA7A JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB
+IEF285I   KC03CA7.KC03CA7A.JOB08978.D0000102.?         SYSOUT
+IEF285I   KC03CA7.KC03CA7A.JOB08978.D0000101.?         SYSIN
+IGD104I KC02322.CSCI360.DATASU20                     RETAINED,  DDNAME=FT05F001
+IEF285I   KC03CA7.KC03CA7A.JOB08978.D0000103.?         SYSOUT
+IEF285I   KC03CA7.KC03CA7A.JOB08978.D0000104.?         SYSOUT
+IEF373I STEP/JSTEP01 /START 2020199.2329
+IEF032I STEP/JSTEP01 /STOP  2020199.2329
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+        VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    12220K
+        ATB- REAL:                  4128K  SLOTS:                     0K
+             VIRT- ALLOC:      13M SHRD:       0M
+IEF375I  JOB/KC03CA7A/START 2020199.2329
+IEF033I  JOB/KC03CA7A/STOP  2020199.2329
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+******************************************************************
+*                                                                *
+*  CSCI 360               ASSIGNMENT 5              SUMMER 2020  *
+*                                                                *
+*  PROGRAMMER NAME: ROBBIE KORNETA                               *
+*                                                                *
+*         DATE DUE: 07/17/2020                                   *
+*                                                                *
+*         TIME DUE: 11:59 PM                                     *
+*                                                                *
+*     PROGRAM NAME: PAYROLL1                                     *
+*                                                                *
+*     FUNCTION: THE PROGRAM WILL TAKE AN INPUT FILE AND          *
+*     READ THE VALUES FROM IT. IT WILL THEN CALCULATE            *
+*     PAYROLLS AND DISPLAY THE RESULTS                           *
+*                                                                *
+*                                                                *
+******************************************************************
+*        COL. 10
+*        |     COL. 16
+*        |     |
+*        v     v
+PAYROLL1 CSECT
+         USING PAYROLL1,15      ESTABLISH ADDRESSABILITY ON REG 15
+         XREAD RECORD,80        READ FIRST LINE OF FILE
+*
+FLOOP    BC    B'0100',ENDLOOP  CHECK FOR END OF FILE
+*
+         LA    1,RECORD  LOAD THE CONTENTS OF RECORD INTO 1ST REGISTER
+         XDECI 3,0(,1)   GET THE VALUE FOR TAX WITHHOLDING
+         ST    3,TAXW    PUT THE VALUE OF TAX WITHHOLDING INTO MEMORY
+         XDECO 3,PTAXW   CONVERT TO CHARCTER REP. FOR PRINTING
+*
+         LA    7,0       WILL HOLD TOTAL EMPLOYEES
+         LA    8,0       WILL HOLD TOTAL DEDUCTIONS
+         LA    9,0       WILL HOLD TOTAL BONUSES
+         LA    10,0      WILL HOLD TOTAL GROSS PAY
+         LA    11,0      WILL HOLD TOTAL WITHHOLDING
+         LA    12,0      WILL HOLD TOTAL NET PAY
+         XREAD RECORD,80 READ NEXT LINE OF FILE
+*
+LOOP     BC    B'0100',ENDLOOP  CHECK FOR END OF FILE
+*
+         A     7,=F'1'          INCREMENT TOTAL EMPLOYEES
+         LA    1,RECORD         LOAD CURRENT LINE INTO R1
+         MVC   NAME(25),0(1)    GET THE NAME OF THE EMPLOYEE
+         LA    1,24(,1)         MOVE THE THE PID LOCATION
+         MVC   PID(6),0(1)      GET THE ID OF THE EMPLOYEE
+         LA    1,6(,1)          MOVE TO THE HOURLY PAY
+         XDECI 3,0(,1)          GET HOURLY PAY AS A NUMBER
+         ST    3,HPAY           STORE VALUE INTO HOURLY PAY
+         XDECO 3,PHPAY          CONVERT HOUR PAY TO PRINTABLE CHARACTER
+         XDECI 3,0(,1)          GET HOURS WORKED AS NUMBER
+         ST    3,HWORK          STORE VALUE INTO HOURS WORK
+         XDECO 3,PHWORK         CONVERT TO PRINTABLE CHARACTER
+         XDECI 3,0(,1)          GET DEDUCTION AMOUNT
+         ST    3,DAMNT          STORE DEDUCTION AMOUNT
+         AR    8,3              INCREMENT TOTAL DEDUCTION AMOUNT
+         XDECO 3,PDAMNT         CONVERT TO PRINTABLE CHARACTER
+         XDECI 3,0(,1)          GET BONUS AMOUNT
+         ST    3,BAMNT          STORE BONUS AMOUNT
+         AR    9,3              INCREMENT TOTAL BONUS AMOUNT
+         XDECO 3,PBAMNT         CONVERT TO PRINTABLE CHARACTER
+         L     3,HPAY           LOAD HOURLY PAY INTO R3 FOR CALCULATION
+         L     5,HWORK          LOAD HOURS WORK INTO R5 FOR CALCULATION
+         MR    4,3              MULTIPLY HOURLY PAY AND HOURS WORKED
+         L     6,DAMNT          LOAD DEDUCTIONS INTO R6
+         SR    5,6              SUBTRACT FROM THE ORIGINAL PAY
+         A     5,BAMNT          ADD IN BONUS AMOUNT TO PAY
+         ST    5,GPA            GROSS PAY HAS BEEN CALCULATED
+         AR    10,5             INCREMENT TOTAL GROSS PAY
+         XDECO 5,PGPA           CONVERT TO PRINTABLE FORMAT
+         SR    3,3              CLEAR REGISTERS
+         SR    4,4
+         SR    5,5
+         L     3,TAXW           LOAD TAX WITHHOLDING INTO ODD REGISTER
+         L     5,GPA            LOAD GROSS PAY INTO ODD REGISTER
+         L     6,GPA            LOAD GROSS PAY INTO EVEN REGISTER
+         MR    4,3              MULTIPLY TO GET WITHHOLDING AMOUNT
+         LR    4,5              LOAD GROSS PAY INTO EVEN REGISTER
+         M     4,=F'1'          ZERO OUT EVEN ODD PAIR
+         D     4,=F'100'        DIVIDE WITHHOLDING AMOUNT BY 100
+         SR    6,5              SUBTRACT FROM GROSS PAY TO GET NET PAY
+         AR    11,5             INCREASE TOTAL WITHHOLDING AMOUNT
+         AR    12,6             INCREASE TOTAL NET PAY AMOUNT
+         XDECO 5,PWHAMNT        CONVERT TO PRINTABLE FORMAT
+         XDECO 6,PNPA
+         XPRNT PRNTLINE,116     PRINT OUT RESULTS OF CALCULATIONS
+         XREAD RECORD,80        MOVE TO NEXT LINE
+*
+         B     LOOP             BRANCH TO BEGINNING OF LOOP
+*
+PRNTLINE DC    C'0'             DOUBLE SPACE
+NAME     DS    CL24             NAME OF THE EMPLOYEE
+         DC    C'0'
+PID      DS    CL5              ID OF THE EMPLOYEE
+         DC    C'0'
+PHPAY    DS    CL11             HOURLY PAY OF EMPLOYEE (PRINTABLE)
+         DC    C'0'
+PHWORK   DS    CL11             TOTAL HOURS WORKED BY EMPLOYEE (PRNT)
+         DC    C'0'
+PDAMNT   DS    CL11             DEDUCTIONS AMOUNT (PRINTABLE)
+         DC    C'0'
+PBAMNT   DS    CL11             BONUS AMOUNT (PRINTABLE)
+         DC    C'0'
+PGPA     DS    CL11             GROSS PAY AMOUNT (PRINTABLE)
+         DC    C'0'
+PWHAMNT  DS    CL11             WITHHOLDING AMOUNT (PRINTABLE)
+         DC    C'0'
+PNPA     DS    CL11             NET PAY AMOUNT (PRINTABLE)
+*
+ENDLOOP  XDECO 7,ECOUNT         CONVERT TOTAL EMPLOYEE COUNT TO PRINT
+         XPRNT PRNTECT,50       PRINT EMPLOYEE COUNT
+         XDECO 8,DCOUNT         CONVERT TOTAL DEDUCTOINS AMOUNT TO PRNT
+         XPRNT PRNTDD,50        PRINT TOTAL DEDUCTIONS AMOUNT
+         XDECO 9,BNSCNT         CONVERT TOTAL BONUS AMOUNT TO PRINT
+         XPRNT PRNTBNS,50       PRINT TOTAL BONUS AMOUNT
+         XDECO 10,GPTOT         CONVERT TOTAL GROSS PAY TO PRINT
+         XPRNT PRNTGP,50        PRINT TOTAL GROSS PAY AMOUNT
+         XDECO 11,WHTOT         CONVERT TOTAL WITHHOLDING TO PRINT
+         XPRNT PRNTWH,50        PRINT TOTAL WITHHOLDING
+         XDECO 12,NPTOT         CONVERT NET PAY TOTAL TO PRINT
+         XPRNT PRNTNP,50        PRINT TOTAL NET PAY
+         LR    8,7              COPY EMPLOYEE COUNT TO EVEN REGISTER
+         LR    5,10             COPY TOTAL GROSS PAY TO ODD REGISTER
+         SR    4,4              CLEAR REGISTER 4 TO HOLD REMAINDER
+         DR    4,8              CALCULATE AVERAGE GROSS PAY
+         XDECO 5,AVGGP          CONVERT TO PRINTABLE FORMAT
+         XPRNT PRNTAGP,50       PRINT AVERAGE GROSS PAY
+         LR    5,12             COPY TOTAL NET PAY TO ODD REGISTER
+         SR    4,4              CLEAR REGISTER 4
+         DR    4,8              CALCULATE AVERAGE NET PAY
+         XDECO 5,AVGNP          CONVERT TO PRINTABLE FORMAT
+         XPRNT PRNTANP,50       PRINT AVERAGE NET PAY
+*
+         B     ENDPRGM
+*
+PRNTECT  DC    C'0'             PRINT EMPLOYEE COUNT
+         DC    15C' '
+         DC    CL22'TOTAL EMPLOYEE COUNT: '
+ECOUNT   DS    CL12             EMPLOYEE COUNT
+*
+PRNTDD   DC    C'0'             PRINT TOTAL DEDUCTION AMOUNT
+         DC    19C' '
+         DC    CL18'TOTAL DEDUCTIONS: '
+DCOUNT   DS    CL11             TOTAL DEDUCTION COUNT
+         DC    C'0'
+*
+PRNTBNS  DC    C'0'             PRINT TOTAL BONUS AMOUNT
+         DC    22C' '
+         DC    CL15'TOTAL BONUSES: '
+BNSCNT   DS    CL11             TOTAL BONUS AMOUNT
+         DC    C'0'
+*
+PRNTGP   DC    C'0'             PRINT TOTAL GROSS PAY
+         DC    20C' '
+         DC    CL17'TOTAL GROSS PAY: '
+GPTOT    DS    CL11             TOTAL GROSS PAY
+         DC    C'0'
+*
+PRNTWH   DC    C'0'             PRINT WITHHOLDING AMOUNT
+         DC    18C' '
+         DC    CL19'TOTAL WITHHOLDING: '
+WHTOT    DS    CL11             TOTAL WITHHOLDING
+         DC    C'0'
+*
+PRNTNP   DC    C'0'             PRINT TOTAL NET PAY
+         DC    22C' '
+         DC    CL15'TOTAL NET PAY: '
+NPTOT    DS    CL11              TOTAL NET PAY
+         DC    C'0'
+*
+PRNTAGP  DC    C'0'              PRINT AVERAGE GROSS PAY
+         DC    18C' '
+         DC    CL19'AVERAGE GROSS PAY: '
+AVGGP    DS    CL11              AVERAGE GROSS PAY
+         DC    C'0'
+*
+PRNTANP  DC    C'0'              PRINT AVERAGE NET PAY
+         DC    20C' '
+         DC    CL17'AVERAGE NET PAY: '
+AVGNP    DS    CL11              AVERAGE NET PAY
+         DC    C'0'
+*
+ENDPRGM  DS    0H
+*
+         XDUMP ,                  DUMP CONTENTS OF ALL 16 REGS
+         BCR   B'1111',14         UNCONDITIONAL RETURN TO CALLER (OS)
+*
+RECORD   DS    CL80               INPUT FILE BUFFER
+TAXW     DS    F                  TAX WITHHOLDING
+PTAXW    DS    CL11               PRINTABLE FORMAT OF TAX WITHHOLDING
+ID       DS    F                  EMPLOYEE ID
+HPAY     DS    F                  HOURLY PAY FOR AN EMPLOYEE
+HWORK    DS    F                  TOTAL HOURS WORKED FOR AN EMPLOYEE
+DAMNT    DS    F                  DEDUCTION AMOUNT FOR EMPLOYEE
+BAMNT    DS    F                  BONUS AMOUNT FOR AN EMPLOYEE
+GPA      DS    F                  GROSS PAY AMOUNT
+*
+         LTORG             LITERAL ORGANIZATION
+*
+         END   PAYROLL1
+*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT
+ 
+                                                                                                               PAGE    1
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                      1 ******************************************************************
+                                      2 *                                                                *
+                                      3 *  CSCI 360               ASSIGNMENT 5              SUMMER 2020  *
+                                      4 *                                                                *
+                                      5 *  PROGRAMMER NAME: ROBBIE KORNETA                               *
+                                      6 *                                                                *
+                                      7 *         DATE DUE: 07/17/2020                                   *
+                                      8 *                                                                *
+                                      9 *         TIME DUE: 11:59 PM                                     *
+                                     10 *                                                                *
+                                     11 *     PROGRAM NAME: PAYROLL1                                     *
+                                     12 *                                                                *
+                                     13 *     FUNCTION: THE PROGRAM WILL TAKE AN INPUT FILE AND          *
+                                     14 *     READ THE VALUES FROM IT. IT WILL THEN CALCULATE            *
+                                     15 *     PAYROLLS AND DISPLAY THE RESULTS                           *
+                                     16 *                                                                *
+                                     17 *                                                                *
+                                     18 ******************************************************************
+                                     19 *        COL. 10
+                                     20 *        |     COL. 16
+                                     21 *        |     |
+                                     22 *        v     v
+000000                               23 PAYROLL1 CSECT
+000000                               24          USING PAYROLL1,15      ESTABLISH ADDRESSABILITY ON REG 15
+000000 E000 F354 0050 00354          25          XREAD RECORD,80        READ FIRST LINE OF FILE
+                                     26 *
+000006 4740 F15A            0015A    27 FLOOP    BC    B'0100',ENDLOOP  CHECK FOR END OF FILE
+                                     28 *
+00000A 4110 F354            00354    29          LA    1,RECORD  LOAD THE CONTENTS OF RECORD INTO 1ST REGISTER
+00000E 5330 1000            00000    30          XDECI 3,0(,1)   GET THE VALUE FOR TAX WITHHOLDING
+000012 5030 F3A4            003A4    31          ST    3,TAXW    PUT THE VALUE OF TAX WITHHOLDING INTO MEMORY
+000016 5230 F3A8            003A8    32          XDECO 3,PTAXW   CONVERT TO CHARCTER REP. FOR PRINTING
+                                     33 *
+00001A 4170 0000            00000    34          LA    7,0       WILL HOLD TOTAL EMPLOYEES
+00001E 4180 0000            00000    35          LA    8,0       WILL HOLD TOTAL DEDUCTIONS
+000022 4190 0000            00000    36          LA    9,0       WILL HOLD TOTAL BONUSES
+000026 41A0 0000            00000    37          LA    10,0      WILL HOLD TOTAL GROSS PAY
+00002A 41B0 0000            00000    38          LA    11,0      WILL HOLD TOTAL WITHHOLDING
+00002E 41C0 0000            00000    39          LA    12,0      WILL HOLD TOTAL NET PAY
+000032 E000 F354 0050 00354          40          XREAD RECORD,80 READ NEXT LINE OF FILE
+                                     41 *
+000038 4740 F15A            0015A    42 LOOP     BC    B'0100',ENDLOOP  CHECK FOR END OF FILE
+                                     43 *
+00003C 5A70 F3D0            003D0    44          A     7,=F'1'          INCREMENT TOTAL EMPLOYEES
+000040 4110 F354            00354    45          LA    1,RECORD         LOAD CURRENT LINE INTO R1
+000044 D218 F0E7 1000 000E7 00000    46          MVC   NAME(25),0(1)    GET THE NAME OF THE EMPLOYEE
+00004A 4110 1018            00018    47          LA    1,24(,1)         MOVE THE THE PID LOCATION
+00004E D205 F100 1000 00100 00000    48          MVC   PID(6),0(1)      GET THE ID OF THE EMPLOYEE
+000054 4110 1006            00006    49          LA    1,6(,1)          MOVE TO THE HOURLY PAY
+000058 5330 1000            00000    50          XDECI 3,0(,1)          GET HOURLY PAY AS A NUMBER
+00005C 5030 F3B8            003B8    51          ST    3,HPAY           STORE VALUE INTO HOURLY PAY
+000060 5230 F106            00106    52          XDECO 3,PHPAY          CONVERT HOUR PAY TO PRINTABLE CHARACTER
+                                                                                                               PAGE    2
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+000064 5330 1000            00000    53          XDECI 3,0(,1)          GET HOURS WORKED AS NUMBER
+000068 5030 F3BC            003BC    54          ST    3,HWORK          STORE VALUE INTO HOURS WORK
+00006C 5230 F112            00112    55          XDECO 3,PHWORK         CONVERT TO PRINTABLE CHARACTER
+000070 5330 1000            00000    56          XDECI 3,0(,1)          GET DEDUCTION AMOUNT
+000074 5030 F3C0            003C0    57          ST    3,DAMNT          STORE DEDUCTION AMOUNT
+000078 1A83                          58          AR    8,3              INCREMENT TOTAL DEDUCTION AMOUNT
+00007A 5230 F11E            0011E    59          XDECO 3,PDAMNT         CONVERT TO PRINTABLE CHARACTER
+00007E 5330 1000            00000    60          XDECI 3,0(,1)          GET BONUS AMOUNT
+000082 5030 F3C4            003C4    61          ST    3,BAMNT          STORE BONUS AMOUNT
+000086 1A93                          62          AR    9,3              INCREMENT TOTAL BONUS AMOUNT
+000088 5230 F12A            0012A    63          XDECO 3,PBAMNT         CONVERT TO PRINTABLE CHARACTER
+00008C 5830 F3B8            003B8    64          L     3,HPAY           LOAD HOURLY PAY INTO R3 FOR CALCULATION
+000090 5850 F3BC            003BC    65          L     5,HWORK          LOAD HOURS WORK INTO R5 FOR CALCULATION
+000094 1C43                          66          MR    4,3              MULTIPLY HOURLY PAY AND HOURS WORKED
+000096 5860 F3C0            003C0    67          L     6,DAMNT          LOAD DEDUCTIONS INTO R6
+00009A 1B56                          68          SR    5,6              SUBTRACT FROM THE ORIGINAL PAY
+00009C 5A50 F3C4            003C4    69          A     5,BAMNT          ADD IN BONUS AMOUNT TO PAY
+0000A0 5050 F3C8            003C8    70          ST    5,GPA            GROSS PAY HAS BEEN CALCULATED
+0000A4 1AA5                          71          AR    10,5             INCREMENT TOTAL GROSS PAY
+0000A6 5250 F136            00136    72          XDECO 5,PGPA           CONVERT TO PRINTABLE FORMAT
+0000AA 1B33                          73          SR    3,3              CLEAR REGISTERS
+0000AC 1B44                          74          SR    4,4
+0000AE 1B55                          75          SR    5,5
+0000B0 5830 F3A4            003A4    76          L     3,TAXW           LOAD TAX WITHHOLDING INTO ODD REGISTER
+0000B4 5850 F3C8            003C8    77          L     5,GPA            LOAD GROSS PAY INTO ODD REGISTER
+0000B8 5860 F3C8            003C8    78          L     6,GPA            LOAD GROSS PAY INTO EVEN REGISTER
+0000BC 1C43                          79          MR    4,3              MULTIPLY TO GET WITHHOLDING AMOUNT
+0000BE 1845                          80          LR    4,5              LOAD GROSS PAY INTO EVEN REGISTER
+0000C0 5C40 F3D0            003D0    81          M     4,=F'1'          ZERO OUT EVEN ODD PAIR
+0000C4 5D40 F3D4            003D4    82          D     4,=F'100'        DIVIDE WITHHOLDING AMOUNT BY 100
+0000C8 1B65                          83          SR    6,5              SUBTRACT FROM GROSS PAY TO GET NET PAY
+0000CA 1AB5                          84          AR    11,5             INCREASE TOTAL WITHHOLDING AMOUNT
+0000CC 1AC6                          85          AR    12,6             INCREASE TOTAL NET PAY AMOUNT
+0000CE 5250 F142            00142    86          XDECO 5,PWHAMNT        CONVERT TO PRINTABLE FORMAT
+0000D2 5260 F14E            0014E    87          XDECO 6,PNPA
+0000D6 E020 F0E6 0074 000E6          88          XPRNT PRNTLINE,116     PRINT OUT RESULTS OF CALCULATIONS
+0000DC E000 F354 0050 00354          89          XREAD RECORD,80        MOVE TO NEXT LINE
+                                     90 *
+0000E2 47F0 F038            00038    91          B     LOOP             BRANCH TO BEGINNING OF LOOP
+                                     92 *
+0000E6 F0                            93 PRNTLINE DC    C'0'             DOUBLE SPACE
+0000E7                               94 NAME     DS    CL24             NAME OF THE EMPLOYEE
+0000FF F0                            95          DC    C'0'
+000100                               96 PID      DS    CL5              ID OF THE EMPLOYEE
+000105 F0                            97          DC    C'0'
+000106                               98 PHPAY    DS    CL11             HOURLY PAY OF EMPLOYEE (PRINTABLE)
+000111 F0                            99          DC    C'0'
+000112                              100 PHWORK   DS    CL11             TOTAL HOURS WORKED BY EMPLOYEE (PRNT)
+00011D F0                           101          DC    C'0'
+00011E                              102 PDAMNT   DS    CL11             DEDUCTIONS AMOUNT (PRINTABLE)
+000129 F0                           103          DC    C'0'
+00012A                              104 PBAMNT   DS    CL11             BONUS AMOUNT (PRINTABLE)
+000135 F0                           105          DC    C'0'
+000136                              106 PGPA     DS    CL11             GROSS PAY AMOUNT (PRINTABLE)
+000141 F0                           107          DC    C'0'
+000142                              108 PWHAMNT  DS    CL11             WITHHOLDING AMOUNT (PRINTABLE)
+00014D F0                           109          DC    C'0'
+                                                                                                               PAGE    3
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+00014E                              110 PNPA     DS    CL11             NET PAY AMOUNT (PRINTABLE)
+                                    111 *
+00015A 5270 F1E2            001E2   112 ENDLOOP  XDECO 7,ECOUNT         CONVERT TOTAL EMPLOYEE COUNT TO PRINT
+00015E E020 F1BC 0032 001BC         113          XPRNT PRNTECT,50       PRINT EMPLOYEE COUNT
+000164 5280 F214            00214   114          XDECO 8,DCOUNT         CONVERT TOTAL DEDUCTOINS AMOUNT TO PRNT
+000168 E020 F1EE 0032 001EE         115          XPRNT PRNTDD,50        PRINT TOTAL DEDUCTIONS AMOUNT
+00016E 5290 F246            00246   116          XDECO 9,BNSCNT         CONVERT TOTAL BONUS AMOUNT TO PRINT
+000172 E020 F220 0032 00220         117          XPRNT PRNTBNS,50       PRINT TOTAL BONUS AMOUNT
+000178 52A0 F278            00278   118          XDECO 10,GPTOT         CONVERT TOTAL GROSS PAY TO PRINT
+00017C E020 F252 0032 00252         119          XPRNT PRNTGP,50        PRINT TOTAL GROSS PAY AMOUNT
+000182 52B0 F2AA            002AA   120          XDECO 11,WHTOT         CONVERT TOTAL WITHHOLDING TO PRINT
+000186 E020 F284 0032 00284         121          XPRNT PRNTWH,50        PRINT TOTAL WITHHOLDING
+00018C 52C0 F2DC            002DC   122          XDECO 12,NPTOT         CONVERT NET PAY TOTAL TO PRINT
+000190 E020 F2B6 0032 002B6         123          XPRNT PRNTNP,50        PRINT TOTAL NET PAY
+000196 1887                         124          LR    8,7              COPY EMPLOYEE COUNT TO EVEN REGISTER
+000198 185A                         125          LR    5,10             COPY TOTAL GROSS PAY TO ODD REGISTER
+00019A 1B44                         126          SR    4,4              CLEAR REGISTER 4 TO HOLD REMAINDER
+00019C 1D48                         127          DR    4,8              CALCULATE AVERAGE GROSS PAY
+00019E 5250 F30E            0030E   128          XDECO 5,AVGGP          CONVERT TO PRINTABLE FORMAT
+0001A2 E020 F2E8 0032 002E8         129          XPRNT PRNTAGP,50       PRINT AVERAGE GROSS PAY
+0001A8 185C                         130          LR    5,12             COPY TOTAL NET PAY TO ODD REGISTER
+0001AA 1B44                         131          SR    4,4              CLEAR REGISTER 4
+0001AC 1D48                         132          DR    4,8              CALCULATE AVERAGE NET PAY
+0001AE 5250 F340            00340   133          XDECO 5,AVGNP          CONVERT TO PRINTABLE FORMAT
+0001B2 E020 F31A 0032 0031A         134          XPRNT PRNTANP,50       PRINT AVERAGE NET PAY
+                                    135 *
+0001B8 47F0 F34C            0034C   136          B     ENDPRGM
+                                    137 *
+0001BC F0                           138 PRNTECT  DC    C'0'             PRINT EMPLOYEE COUNT
+0001BD 4040404040404040             139          DC    15C' '
+0001CC E3D6E3C1D340C5D4             140          DC    CL22'TOTAL EMPLOYEE COUNT: '
+0001E2                              141 ECOUNT   DS    CL12             EMPLOYEE COUNT
+                                    142 *
+0001EE F0                           143 PRNTDD   DC    C'0'             PRINT TOTAL DEDUCTION AMOUNT
+0001EF 4040404040404040             144          DC    19C' '
+000202 E3D6E3C1D340C4C5             145          DC    CL18'TOTAL DEDUCTIONS: '
+000214                              146 DCOUNT   DS    CL11             TOTAL DEDUCTION COUNT
+00021F F0                           147          DC    C'0'
+                                    148 *
+000220 F0                           149 PRNTBNS  DC    C'0'             PRINT TOTAL BONUS AMOUNT
+000221 4040404040404040             150          DC    22C' '
+000237 E3D6E3C1D340C2D6             151          DC    CL15'TOTAL BONUSES: '
+000246                              152 BNSCNT   DS    CL11             TOTAL BONUS AMOUNT
+000251 F0                           153          DC    C'0'
+                                    154 *
+000252 F0                           155 PRNTGP   DC    C'0'             PRINT TOTAL GROSS PAY
+000253 4040404040404040             156          DC    20C' '
+000267 E3D6E3C1D340C7D9             157          DC    CL17'TOTAL GROSS PAY: '
+000278                              158 GPTOT    DS    CL11             TOTAL GROSS PAY
+000283 F0                           159          DC    C'0'
+                                    160 *
+000284 F0                           161 PRNTWH   DC    C'0'             PRINT WITHHOLDING AMOUNT
+000285 4040404040404040             162          DC    18C' '
+000297 E3D6E3C1D340E6C9             163          DC    CL19'TOTAL WITHHOLDING: '
+0002AA                              164 WHTOT    DS    CL11             TOTAL WITHHOLDING
+0002B5 F0                           165          DC    C'0'
+                                    166 *
+                                                                                                               PAGE    4
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+0002B6 F0                           167 PRNTNP   DC    C'0'             PRINT TOTAL NET PAY
+0002B7 4040404040404040             168          DC    22C' '
+0002CD E3D6E3C1D340D5C5             169          DC    CL15'TOTAL NET PAY: '
+0002DC                              170 NPTOT    DS    CL11              TOTAL NET PAY
+0002E7 F0                           171          DC    C'0'
+                                    172 *
+0002E8 F0                           173 PRNTAGP  DC    C'0'              PRINT AVERAGE GROSS PAY
+0002E9 4040404040404040             174          DC    18C' '
+0002FB C1E5C5D9C1C7C540             175          DC    CL19'AVERAGE GROSS PAY: '
+00030E                              176 AVGGP    DS    CL11              AVERAGE GROSS PAY
+000319 F0                           177          DC    C'0'
+                                    178 *
+00031A F0                           179 PRNTANP  DC    C'0'              PRINT AVERAGE NET PAY
+00031B 4040404040404040             180          DC    20C' '
+00032F C1E5C5D9C1C7C540             181          DC    CL17'AVERAGE NET PAY: '
+000340                              182 AVGNP    DS    CL11              AVERAGE NET PAY
+00034B F0                           183          DC    C'0'
+                                    184 *
+00034C                              185 ENDPRGM  DS    0H
+                                    186 *
+00034C E160 0000 0000 00000         187          XDUMP ,                  DUMP CONTENTS OF ALL 16 REGS
+000352 07FE                         188          BCR   B'1111',14         UNCONDITIONAL RETURN TO CALLER (OS)
+                                    189 *
+000354                              190 RECORD   DS    CL80               INPUT FILE BUFFER
+0003A4                              191 TAXW     DS    F                  TAX WITHHOLDING
+0003A8                              192 PTAXW    DS    CL11               PRINTABLE FORMAT OF TAX WITHHOLDING
+0003B4                              193 ID       DS    F                  EMPLOYEE ID
+0003B8                              194 HPAY     DS    F                  HOURLY PAY FOR AN EMPLOYEE
+0003BC                              195 HWORK    DS    F                  TOTAL HOURS WORKED FOR AN EMPLOYEE
+0003C0                              196 DAMNT    DS    F                  DEDUCTION AMOUNT FOR EMPLOYEE
+0003C4                              197 BAMNT    DS    F                  BONUS AMOUNT FOR AN EMPLOYEE
+0003C8                              198 GPA      DS    F                  GROSS PAY AMOUNT
+                                    199 *
+                                    200          LTORG             LITERAL ORGANIZATION
+0003D0 00000001                     201                =F'1'
+0003D4 00000064                     202                =F'100'
+                                    203 *
+                                    204          END   PAYROLL1
+***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS
+*** DYNAMIC CORE AREA USED:  LOW:   11088 HIGH:    1136 LEAVING:  481344 FREE BYTES. AVERAGE:       59 BYTES/STMT ***
+*** ASSEMBLY TIME =    0.000 SECS,   205000 STATEMENTS/SEC ***
+*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***
+WOLFGANG AMADEUS MOZART   12345          15          80          25         500        1675         301        1374
+RICHARD STRAUSS           23456          19          80           0          10        1530         275        1255
+AMY BEACH                 22132          10          80          31         200         969         174         795
+DAME ETHEL SMYTHE         65465          22          80          15         900        2645         476        2169
+PETER ILYICH TCHAIKOVSKY  44560          23          28          34          70         680         122         558
+ANTON BRUCKNER            99870          22          80          21           0        1739         313        1426
+LUDWIG VAN BEETHOVEN      13345          15          80          25         500        1675         301        1374
+JOHANNES BRAHMS           24456          19          80           0          10        1530         275        1255
+BELA BARTOK               22532          10          80          31         200         969         174         795
+MAX REGER                 11465          22          80          15         900        2645         476        2169
+SAMUEL BARBER             13360          23          28          34          70         680         122         558
+GIUSEPPE VERDI            99873          22          80          21           0        1739         313        1426
+JOHANN SEBASTIAN BACH     12342          15          80          25         500        1675         301        1374
+JOSEPH HAYDN              23452          19          80           0          10        1530         275        1255
+GEORG FRIEDRICH HANDEL    22131          10          80          31         200         969         174         795
+EDWARD ELGAR              65411          22          80          15         900        2645         476        2169
+NIKOLAI RIMSKY-KORSAKOV   44378          23          28          34          70         680         122         558
+CLAUDE DEBUSSY            99855          22          80          21           0        1739         313        1426
+ANTONIN DVORAK            13346          15          80          25         500        1675         301        1374
+THOMAS TALLIS             24457          19          80           0          10        1530         275        1255
+RALPH VAUGHAN WILLIAMS    22538          10          80          31         200         969         174         795
+RICHARD WAGNER            11477          22          80          15         900        2645         476        2169
+FREDERIC CHOPIN           17777          23          28          34          70         680         122         558
+JOAN TOWER                99211          22          80          21           0        1739         313        1426
+               TOTAL EMPLOYEE COUNT:           24
+                   TOTAL DEDUCTIONS:          504
+                      TOTAL BONUSES:         6720
+                    TOTAL GROSS PAY:        36952
+                  TOTAL WITHHOLDING:         6644
+                      TOTAL NET PAY:        30308
+                  AVERAGE GROSS PAY:         1539
+                    AVERAGE NET PAY:         1262
+BEGIN XSNAP - CALL     1 AT C0000352 USER REGISTERS
+ REGS 0-7      F4F4F4F4    0000037F    F4F4F4F4    00000012    00000014    000004EE    00000592    00000018
+ REGS 8-15     00000018    00001A40    00009058    000019F4    00007664    000003D8    FFFE7960    00000000
+ 
+*** EXECUTION TIME =    0.000 SECS.      1192 INSTRUCTIONS EXECUTED -  1192000 INSTRUCTIONS/SEC ***
+*** AM004 - NORMAL USER TERMINATION BY RETURN ***

@@ -1,0 +1,977 @@
+                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2
+ 
+18.26.13 JOB04304 ---- WEDNESDAY, 22 JUL 2020 ----
+18.26.13 JOB04304  IRR010I  USERID KC03CA7  IS ASSIGNED TO THIS JOB.
+18.26.13 JOB04304  ICH70001I KC03CA7  LAST ACCESS AT 18:25:43 ON WEDNESDAY, JULY 22, 2020
+18.26.13 JOB04304  $HASP373 KC03CA7A STARTED - INIT 2    - CLASS A        - SYS 2964
+18.26.13 JOB04304  $HASP395 KC03CA7A ENDED - RC=0000
+------ JES2 JOB STATISTICS ------
+  22 JUL 2020 JOB EXECUTION DATE
+          422 CARDS READ
+          572 SYSOUT PRINT RECORDS
+            0 SYSOUT PUNCH RECORDS
+           47 SYSOUT SPOOL KBYTES
+         0.00 MINUTES EXECUTION TIME
+        1 //KC03CA7A JOB ,'ROBBIE KORNETA',MSGCLASS=H                             JOB04304
+        2 //JSTEP01  EXEC PGM=ASSIST
+        3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR
+        4 //SYSPRINT DD SYSOUT=*
+        5 //SYSIN    DD *
+          //*
+        6 //FT05F001 DD DSN=KC02322.CSCI360.DATASU20(DATA6),DISP=SHR
+          //*
+        7 //FT06F001 DD SYSOUT=*
+          //*
+        8 //SYSPRINT DD SYSOUT=*
+        9 //
+ICH70001I KC03CA7  LAST ACCESS AT 18:25:43 ON WEDNESDAY, JULY 22, 2020
+IEFA111I KC03CA7A IS USING THE FOLLOWING JOB RELATED SETTINGS:
+         SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+IEF236I ALLOC. FOR KC03CA7A JSTEP01
+IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF237I JES2 ALLOCATED TO SYSIN
+IGD103I SMS ALLOCATED TO DDNAME FT05F001
+IEF237I JES2 ALLOCATED TO FT06F001
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF142I KC03CA7A JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB
+IEF285I   KC03CA7.KC03CA7A.JOB04304.D0000102.?         SYSOUT
+IEF285I   KC03CA7.KC03CA7A.JOB04304.D0000101.?         SYSIN
+IGD104I KC02322.CSCI360.DATASU20                     RETAINED,  DDNAME=FT05F001
+IEF285I   KC03CA7.KC03CA7A.JOB04304.D0000103.?         SYSOUT
+IEF285I   KC03CA7.KC03CA7A.JOB04304.D0000104.?         SYSOUT
+IEF373I STEP/JSTEP01 /START 2020204.1826
+IEF032I STEP/JSTEP01 /STOP  2020204.1826
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+        VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    12220K
+        ATB- REAL:                  4128K  SLOTS:                     0K
+             VIRT- ALLOC:      13M SHRD:       0M
+IEF375I  JOB/KC03CA7A/START 2020204.1826
+IEF033I  JOB/KC03CA7A/STOP  2020204.1826
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+******************************************************************
+*                                                                *
+*  CSCI 360               ASSIGNMENT 6              SUMMER 2020  *
+*                                                                *
+*  PROGRAMMER NAME: ROBBIE KORNETA                               *
+*                                                                *
+*         DATE DUE: 07/24/2020                                   *
+*                                                                *
+*         TIME DUE: 11:59 PM                                     *
+*                                                                *
+*     PROGRAM NAME: PAYROLL2                                     *
+*                                                                *
+*     FUNCTION: THE PROGRAM WILL TAKE AN INPUT FILE AND          *
+*     READ THE VALUES FROM IT. IT WILL THEN CALCULATE            *
+*     PAYROLLS AND DISPLAY THE RESULTS                           *
+*                                                                *
+*                                                                *
+******************************************************************
+*        COL. 10
+*        |     COL. 16
+*        |     |
+*        v     v
+PAYROLL2 CSECT
+         STM   14,12,12(13)   SAVE REGS IN CALLER'S SAVE AREA
+         LR    12,15          COPY CSECT ADDRESS INTO R12
+         USING PAYROLL2,12    ESTABLISH R12 AS THE BASE REG
+         LA    14,PR2SAVE     R14 POINTS TO THIS CSECT'S SAVE AREA
+         ST    14,8(,13)      STORE ADDRESS OF THIS CSECT'S SAVE AREA
+         ST    13,4(,14)      STORE ADDRESS OF THE CALLER'S SAVE AREA
+         LR    13,14          POINT R13 AT THIS CSECT'S SAVE AREA
+*
+         LA    2,99
+*
+         XREAD RECORD,80      READ FIRST LINE OF FILE
+*
+         PACK  PWITHPCT(3),RECORD(5)
+*
+         XREAD RECORD,80
+*
+LOOP     BNZ   ENDLOOP  CHECK FOR END OF FILE
+*
+         AP    PEMPCTR(3),=PL1'1'
+*
+         MVI   DETAIL+1,C' '
+         MVC   DETAIL+2(131),DETAIL+1
+*
+         PACK  PEMPID(4),IEMPID(7)
+         PACK  PHRPAY(3),IHRPAY(5)
+         PACK  PHOURS(3),IHOURS(5)
+         PACK  PDEDUCT(3),IDEDUCT(5)
+         AP    PTDEDUCT(4),PDEDUCT(3)
+         PACK  PBONUS(3),IBONUS(5)
+         AP    PTBONUS(4),PBONUS(3)
+*
+         MVC   OEMPID(8),=X'2020206020202120'
+         ED    OEMPID(8),PEMPID
+*
+         MVC   OEMPNME(25),IEMPNME
+*
+         LA    1,OHRPAY+3
+         MVC   OHRPAY(7),=X'402021204B2020'
+         EDMK  OHRPAY(7),PHRPAY
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         MVC   OHOURS(7),=X'2021204B202020'
+         ED    OHOURS(7),PHOURS
+*
+         LA    1,ODEDUCT+3
+         MVC   ODEDUCT(7),=X'402021204B2020'
+         EDMK  ODEDUCT(7),PDEDUCT
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         LA    1,OBONUS+3
+         MVC   OBONUS(7),=X'402021204B2020'
+         EDMK  OBONUS(7),PBONUS
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         ZAP   PEMPGPAY(6),PHRPAY(3)
+         MP    PEMPGPAY(6),PHOURS(3)
+         SRP   PEMPGPAY(6),64-2,5
+         SP    PEMPGPAY(6),PDEDUCT(3)
+         AP    PEMPGPAY(6),PBONUS(3)
+         SRP   PEMPGPAY(6),1,0
+         AP    PTGRPAY(7),PEMPGPAY(6)
+*
+         LA    1,OGPAY+3
+         MVC   OGPAY(13),=X'4020202020206B2021204B2020'
+         EDMK  OGPAY(13),PEMPGPAY
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         ZAP   PCALC+4(10),PEMPGPAY(6)
+         MP    PCALC+4(10),PWITHPCT(3)
+         AP    PTWITH(7),PCALC+4(10)
+         SRP   PCALC+4(10),4,0
+*
+         LA    1,OWITH+3
+         MVC   OWITH(13),=X'4020202020206B2021204B2020'
+         EDMK  OWITH(13),PCALC+4
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         ZAP   PEMPNPAY(6),PEMPGPAY(6)
+         SRP   PCALC+4(10),64-8,0
+         SP    PEMPNPAY(6),PCALC+4(10)
+         AP    PTNETPAY(7),PEMPNPAY(6)
+         SRP   PEMPNPAY(6),4,0
+*
+         LA    1,ONETPAY+3
+         MVC   ONETPAY(9),=X'40206B2021204B2020'
+         EDMK  ONETPAY(9),PEMPNPAY
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         C     2,=F'18'
+         BL    NOHDRS
+*
+         AP    PPAGECTR(2),=PL1'1'
+         MVC   OPAGECTR(4),=X'40202120'
+         ED    OPAGECTR(4),PPAGECTR
+*
+         XPRNT HEADER1,133
+         XPRNT HEADER2,133
+         XPRNT HEADER3,133
+         XPRNT HEADER4,133
+         XPRNT HEADER5,133
+*
+         SR    2,2
+*
+NOHDRS   XPRNT DETAIL,133
+         LA    2,1(,2)        INCREMENT LINE COUNTER BY 1
+*
+         XREAD RECORD,80        MOVE TO NEXT LINE
+*
+         B     LOOP             BRANCH TO BEGINNING OF LOOP
+*
+ENDLOOP  XPRNT HEADER1,133
+         XPRNT HEADER2,133
+         XPRNT HEADER6,133
+*
+         MVC   OEMPCTR(6),=X'202020202020'
+         ED    OEMPCTR(6),PEMPCTR
+         XPRNT PRNTNEMP,133
+*
+         LA    1,OTDEDUCT+3
+         MVC   OTDEDUCT(7),=X'402021204B2020'
+         EDMK  OTDEDUCT(7),PTDEDUCT
+         BCTR  1,0
+         MVI   0(1),C'$'
+         XPRNT PRNTTD,133
+*
+         LA    1,OTBONUS+3
+         MVC   OTBONUS(10),=X'4021206B2021204B2020'
+         EDMK  OTBONUS(10),PTBONUS
+         BCTR  1,0
+         MVI   0(1),C'$'
+         XPRNT PRNTTB,133
+*
+         SRP   PTGRPAY(7),4,0
+         LA    1,OTGRPAY+3
+         MVC   OTGRPAY(11),=X'402021206B2021204B2020'
+         EDMK  OTGRPAY(11),PTGRPAY
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         ZAP   PCALC(10),PTGRPAY(7)
+         DP    PCALC(10),PEMPCTR(3)
+*
+         LA    1,OAGRPAY+3
+         MVC   OAGRPAY(11),=X'402021206B2021204B2020'
+         EDMK  OAGRPAY(11),PCALC
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         XPRNT PRNTTGP,133
+*
+         LA    1,OTWITH+3
+         MVC   OTWITH(11),=X'402021206B2021204B2020'
+         EDMK  OTWITH(11),PTWITH
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         ZAP   PCALC(10),PTWITH(7)
+         DP    PCALC(10),PEMPCTR(3)
+*
+         LA    1,OAWITH+3
+         MVC   OAWITH(9),=X'40206B2021204B2020'
+         EDMK  OAWITH(9),PCALC+1
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         XPRNT PRNTTWH,133
+*
+         SRP   PTNETPAY(7),4,0
+         LA    1,OTNETPAY+3
+         MVC   OTNETPAY(11),=X'402021206B2021204B2020'
+         EDMK  OTNETPAY(11),PTNETPAY
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         ZAP   PCALC(10),PTNETPAY(7)
+         DP    PCALC(10),PEMPCTR(3)
+*
+         LA    1,OANETPAY+3
+         MVC   OANETPAY(11),=X'402021206B2021204B2020'
+         EDMK  OANETPAY(11),PCALC
+         BCTR  1,0
+         MVI   0(1),C'$'
+*
+         XPRNT PRNTTNP,133
+*
+*
+         SR    15,15          SET RETURN CODE TO ZERO
+         L     13,4(,13)      POINT R13 TO CALLER'S SAVE AREA
+         L     14,12(,13)     RESTORE R14
+         LM    0,12,20(13)    RESTORE R0 THRU R12
+         BR    14             RETURN TO CALLER
+*
+RECORD   DS    0H
+IEMPID   DS    ZL7
+         DS    CL1
+IHRPAY   DS    ZL5
+IHOURS   DS    ZL5
+IDEDUCT  DS    ZL5
+IBONUS   DS    ZL5
+IEMPNME  DS    CL25
+         DS    CL27
+*
+         LTORG                    LITERAL ORGANIZATION
+*
+* PACKED DECIMAL VARIABLES
+*
+PWITHPCT DC    PL3'0'         PACKED WITHHOLDING PCT FROM FIRST REC
+*
+PEMPCTR  DC    PL3'0'         PACKED EMPLOYEE COUNTER (MAX 999)
+PPAGECTR DC    PL2'0'         PACKED PAGE COUNTER (MAX 999)
+*
+PEMPID   DC    PL4'0'         PACKED EMPLOYEE ID
+PHRPAY   DC    PL3'0'         PACKED EMPLOYEE HOURLY PAY RATE
+PHOURS   DC    PL3'0'         PACKED EMPLOYEE HOURS WORKED
+PDEDUCT  DC    PL3'0'         PACKED EMPLOYEE DEDUCTION
+PBONUS   DC    PL3'0'         PACKED EMPLOYEE BONUS
+PEMPGPAY DC    PL6'0'         PACKED CALCULATED EMPLOYEE GROSS PAY
+PEMPWITH DC    PL6'0'         PACKED CALCULATED EMPLOYEE WITHHOLDING
+PEMPNPAY DC    PL6'0'        PACKED CALCULATED EMPLOYEE NET PAY
+*
+PCALC    DC    PL10'0'        USED TO CALCULATE WITHHOLDING AND AVGS
+*
+*  PACKED TOTALS FIELDS
+*
+PTDEDUCT DC    PL4'0'         PACKED TOTAL DEDUCTIONS
+PTBONUS  DC    PL4'0'         PACKED TOTAL BONUSES
+PTGRPAY  DC    PL7'0'         PACKED TOTAL GROSS EMPLOYEE PAY
+PTWITH   DC    PL7'0'         PACKED TOTAL WITHHOLDING
+PTNETPAY DC    PL7'0'         PACKED TOTAL NET EMPLOYEE PAY
+*
+DETAIL   DC    C'0'
+OEMPID   DS    CL8
+         DC    3C' '
+OEMPNME  DS    CL25
+         DC    3C' '
+OHRPAY   DS    CL7
+         DC    5C' '
+OHOURS   DS    CL7
+         DC    5C' '
+ODEDUCT  DS    CL7
+         DC    3C' '
+OBONUS   DS    CL7
+         DC    5C' '
+OGPAY    DS    CL13
+         DC    5C' '
+OWITH    DS    CL13
+         DC    9C' '
+ONETPAY  DS    CL9
+*
+HEADER1  DC    C'1'
+         DC    49C' '
+         DC    C'FEELINGS MUTUAL INSURANCE COMPANY'
+         DC    40C' '
+         DC    C'PAGE: '
+OPAGECTR DS    CL4
+*
+HEADER2  DC    C' '
+         DC    48C' '
+         DC    C'SEMI-MONTHLY EMPLOYEE PAYROLL REPORT'
+         DC    48C' '
+*
+HEADER3  DC    C'0'
+         DC    C'EMPLOYEE'
+         DC    3C' '
+         DC    C'EMPLOYEE'
+         DC    21C' '
+         DC    C'HOURLY'
+         DC    5C' '
+         DC    C'HOURS'
+         DC    3C' '
+         DC    C'DEDUCTION'
+         DC    5C' '
+         DC    C'BONUS'
+         DC    10C' '
+         DC    C'EMPLOYEE'
+         DC    10C' '
+         DC    C'EMPLOYEE'
+         DC    10C' '
+         DC    C'EMPLOYEE'
+*
+HEADER4  DC    C' '
+         DC    C'ID'
+         DC    9C' '
+         DC    C'NAME'
+         DC    28C' '
+         DC    C'PAY'
+         DC    4C' '
+         DC    C'WORKED'
+         DC    6C' '
+         DC    C'AMOUNT'
+         DC    4C' '
+         DC    C'AMOUNT'
+         DC    9C' '
+         DC    C'GROSS PAY'
+         DC    7C' '
+         DC    C'WITHHOLDING'
+         DC    11C' '
+         DC    C'NET PAY'
+*
+HEADER5  DC    C' '
+         DC    8C'-'
+         DC    3C' '
+         DC    25C'-'
+         DC    3C' '
+         DC    7C'-'
+         DC    3C' '
+         DC    7C'-'
+         DC    3C' '
+         DC    9C'-'
+         DC    3C' '
+         DC    7C'-'
+         DC    3C' '
+         DC    15C'-'
+         DC    3C' '
+         DC    15C'-'
+         DC    3C' '
+         DC    15C'-'
+*
+HEADER6  DC    C' '
+         DC    64C' '
+         DC    C'TOTAL'
+         DC    64C' '
+*
+PRNTNEMP DC    C'0'
+         DC    1C' '
+         DC    C'NUMBER OF EMPLOYEES: '
+         DC    17C' '
+OEMPCTR  DS    CL6
+         DC    120C' '
+*
+PRNTTD   DC    C'0'
+         DC    4C' '
+         DC    C'TOTAL DEDUCTIONS: '
+         DC    15C' '
+OTDEDUCT DS    CL7
+         DC    120C' '
+*
+PRNTTB   DC    C'0'
+         DC    7C' '
+         DC    C'TOTAL BONUSES: '
+         DC    12C' '
+OTBONUS  DS    CL10
+         DC    120C' '
+*
+PRNTTGP  DC    C'0'
+         DC    5C' '
+         DC    C'TOTAL GROSS PAY: '
+         DC    11C' '
+OTGRPAY  DS    CL11
+         DC    12C' '
+         DC    C'AVERAGE GROSS PAY: '
+         DC    5C' '
+OAGRPAY  DS    CL11
+         DC    50C' '
+*
+PRNTTWH  DC    C'0'
+         DC    3C' '
+         DC    C'TOTAL WITHHOLDING: '
+         DC    11C' '
+OTWITH   DS    CL11
+         DC    10C' '
+         DC    C'AVERAGE WITHHOLDING: '
+         DC    7C' '
+OAWITH   DS    CL9
+         DC    120C' '
+*
+PRNTTNP  DC    C'0'
+         DC    7C' '
+         DC    C'TOTAL NET PAY: '
+         DC    11C' '
+OTNETPAY DS    CL11
+         DC    14C' '
+         DC    C'AVERAGE NET PAY: '
+         DC    5C' '
+OANETPAY DS    CL11
+         DC    120C' '
+*
+PR2SAVE  DC    18F'-1'            CURRENT REGISTER SAVE AREA
+*
+         END   PAYROLL2
+*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT
+ 
+                                                                                                               PAGE    1
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                      1 ******************************************************************
+                                      2 *                                                                *
+                                      3 *  CSCI 360               ASSIGNMENT 6              SUMMER 2020  *
+                                      4 *                                                                *
+                                      5 *  PROGRAMMER NAME: ROBBIE KORNETA                               *
+                                      6 *                                                                *
+                                      7 *         DATE DUE: 07/24/2020                                   *
+                                      8 *                                                                *
+                                      9 *         TIME DUE: 11:59 PM                                     *
+                                     10 *                                                                *
+                                     11 *     PROGRAM NAME: PAYROLL2                                     *
+                                     12 *                                                                *
+                                     13 *     FUNCTION: THE PROGRAM WILL TAKE AN INPUT FILE AND          *
+                                     14 *     READ THE VALUES FROM IT. IT WILL THEN CALCULATE            *
+                                     15 *     PAYROLLS AND DISPLAY THE RESULTS                           *
+                                     16 *                                                                *
+                                     17 *                                                                *
+                                     18 ******************************************************************
+                                     19 *        COL. 10
+                                     20 *        |     COL. 16
+                                     21 *        |     |
+                                     22 *        v     v
+000000                               23 PAYROLL2 CSECT
+000000 90EC D00C            0000C    24          STM   14,12,12(13)   SAVE REGS IN CALLER'S SAVE AREA
+000004 18CF                          25          LR    12,15          COPY CSECT ADDRESS INTO R12
+000000                               26          USING PAYROLL2,12    ESTABLISH R12 AS THE BASE REG
+000006 41E0 CBB0            00BB0    27          LA    14,PR2SAVE     R14 POINTS TO THIS CSECT'S SAVE AREA
+00000A 50E0 D008            00008    28          ST    14,8(,13)      STORE ADDRESS OF THIS CSECT'S SAVE AREA
+00000E 50D0 E004            00004    29          ST    13,4(,14)      STORE ADDRESS OF THE CALLER'S SAVE AREA
+000012 18DE                          30          LR    13,14          POINT R13 AT THIS CSECT'S SAVE AREA
+                                     31 *
+000014 4120 0063            00063    32          LA    2,99
+                                     33 *
+000018 E000 C2EA 0050 002EA          34          XREAD RECORD,80      READ FIRST LINE OF FILE
+                                     35 *
+00001E F224 C390 C2EA 00390 002EA    36          PACK  PWITHPCT(3),RECORD(5)
+                                     37 *
+000024 E000 C2EA 0050 002EA          38          XREAD RECORD,80
+                                     39 *
+00002A 4770 C1B8            001B8    40 LOOP     BNZ   ENDLOOP  CHECK FOR END OF FILE
+                                     41 *
+00002E FA20 C393 C360 00393 00360    42          AP    PEMPCTR(3),=PL1'1'
+                                     43 *
+000034 9240 C3E2      003E2          44          MVI   DETAIL+1,C' '
+000038 D282 C3E3 C3E2 003E3 003E2    45          MVC   DETAIL+2(131),DETAIL+1
+                                     46 *
+00003E F236 C398 C2EA 00398 002EA    47          PACK  PEMPID(4),IEMPID(7)
+000044 F224 C39C C2F2 0039C 002F2    48          PACK  PHRPAY(3),IHRPAY(5)
+00004A F224 C39F C2F7 0039F 002F7    49          PACK  PHOURS(3),IHOURS(5)
+000050 F224 C3A2 C2FC 003A2 002FC    50          PACK  PDEDUCT(3),IDEDUCT(5)
+000056 FA32 C3C4 C3A2 003C4 003A2    51          AP    PTDEDUCT(4),PDEDUCT(3)
+00005C F224 C3A5 C301 003A5 00301    52          PACK  PBONUS(3),IBONUS(5)
+                                                                                                               PAGE    2
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+000062 FA32 C3C8 C3A5 003C8 003A5    53          AP    PTBONUS(4),PBONUS(3)
+                                     54 *
+000068 D207 C3E2 C340 003E2 00340    55          MVC   OEMPID(8),=X'2020206020202120'
+00006E DE07 C3E2 C398 003E2 00398    56          ED    OEMPID(8),PEMPID
+                                     57 *
+000074 D218 C3ED C306 003ED 00306    58          MVC   OEMPNME(25),IEMPNME
+                                     59 *
+00007A 4110 C40C            0040C    60          LA    1,OHRPAY+3
+00007E D206 C409 C361 00409 00361    61          MVC   OHRPAY(7),=X'402021204B2020'
+000084 DF06 C409 C39C 00409 0039C    62          EDMK  OHRPAY(7),PHRPAY
+00008A 0610                          63          BCTR  1,0
+00008C 925B 1000      00000          64          MVI   0(1),C'$'
+                                     65 *
+000090 D206 C415 C368 00415 00368    66          MVC   OHOURS(7),=X'2021204B202020'
+000096 DE06 C415 C39F 00415 0039F    67          ED    OHOURS(7),PHOURS
+                                     68 *
+00009C 4110 C424            00424    69          LA    1,ODEDUCT+3
+0000A0 D206 C421 C361 00421 00361    70          MVC   ODEDUCT(7),=X'402021204B2020'
+0000A6 DF06 C421 C3A2 00421 003A2    71          EDMK  ODEDUCT(7),PDEDUCT
+0000AC 0610                          72          BCTR  1,0
+0000AE 925B 1000      00000          73          MVI   0(1),C'$'
+                                     74 *
+0000B2 4110 C42E            0042E    75          LA    1,OBONUS+3
+0000B6 D206 C42B C361 0042B 00361    76          MVC   OBONUS(7),=X'402021204B2020'
+0000BC DF06 C42B C3A5 0042B 003A5    77          EDMK  OBONUS(7),PBONUS
+0000C2 0610                          78          BCTR  1,0
+0000C4 925B 1000      00000          79          MVI   0(1),C'$'
+                                     80 *
+0000C8 F852 C3A8 C39C 003A8 0039C    81          ZAP   PEMPGPAY(6),PHRPAY(3)
+0000CE FC52 C3A8 C39F 003A8 0039F    82          MP    PEMPGPAY(6),PHOURS(3)
+0000D4 F055 C3A8 003E 003A8 0003E    83          SRP   PEMPGPAY(6),64-2,5
+0000DA FB52 C3A8 C3A2 003A8 003A2    84          SP    PEMPGPAY(6),PDEDUCT(3)
+0000E0 FA52 C3A8 C3A5 003A8 003A5    85          AP    PEMPGPAY(6),PBONUS(3)
+0000E6 F050 C3A8 0001 003A8 00001    86          SRP   PEMPGPAY(6),1,0
+0000EC FA65 C3CC C3A8 003CC 003A8    87          AP    PTGRPAY(7),PEMPGPAY(6)
+                                     88 *
+0000F2 4110 C43A            0043A    89          LA    1,OGPAY+3
+0000F6 D20C C437 C36F 00437 0036F    90          MVC   OGPAY(13),=X'4020202020206B2021204B2020'
+0000FC DF0C C437 C3A8 00437 003A8    91          EDMK  OGPAY(13),PEMPGPAY
+000102 0610                          92          BCTR  1,0
+000104 925B 1000      00000          93          MVI   0(1),C'$'
+                                     94 *
+000108 F895 C3BE C3A8 003BE 003A8    95          ZAP   PCALC+4(10),PEMPGPAY(6)
+00010E FC92 C3BE C390 003BE 00390    96          MP    PCALC+4(10),PWITHPCT(3)
+000114 FA69 C3D3 C3BE 003D3 003BE    97          AP    PTWITH(7),PCALC+4(10)
+00011A F090 C3BE 0004 003BE 00004    98          SRP   PCALC+4(10),4,0
+                                     99 *
+000120 4110 C44C            0044C   100          LA    1,OWITH+3
+000124 D20C C449 C36F 00449 0036F   101          MVC   OWITH(13),=X'4020202020206B2021204B2020'
+00012A DF0C C449 C3BE 00449 003BE   102          EDMK  OWITH(13),PCALC+4
+000130 0610                         103          BCTR  1,0
+000132 925B 1000      00000         104          MVI   0(1),C'$'
+                                    105 *
+000136 F855 C3B4 C3A8 003B4 003A8   106          ZAP   PEMPNPAY(6),PEMPGPAY(6)
+00013C F090 C3BE 0038 003BE 00038   107          SRP   PCALC+4(10),64-8,0
+000142 FB59 C3B4 C3BE 003B4 003BE   108          SP    PEMPNPAY(6),PCALC+4(10)
+000148 FA65 C3DA C3B4 003DA 003B4   109          AP    PTNETPAY(7),PEMPNPAY(6)
+                                                                                                               PAGE    3
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+00014E F050 C3B4 0004 003B4 00004   110          SRP   PEMPNPAY(6),4,0
+                                    111 *
+000154 4110 C462            00462   112          LA    1,ONETPAY+3
+000158 D208 C45F C37C 0045F 0037C   113          MVC   ONETPAY(9),=X'40206B2021204B2020'
+00015E DF08 C45F C3B4 0045F 003B4   114          EDMK  ONETPAY(9),PEMPNPAY
+000164 0610                         115          BCTR  1,0
+000166 925B 1000      00000         116          MVI   0(1),C'$'
+                                    117 *
+00016A 5920 C348            00348   118          C     2,=F'18'
+00016E 4740 C1A4            001A4   119          BL    NOHDRS
+                                    120 *
+000172 FA10 C396 C360 00396 00360   121          AP    PPAGECTR(2),=PL1'1'
+000178 D203 C4E9 C34C 004E9 0034C   122          MVC   OPAGECTR(4),=X'40202120'
+00017E DE03 C4E9 C396 004E9 00396   123          ED    OPAGECTR(4),PPAGECTR
+                                    124 *
+000184 E020 C468 0085 00468         125          XPRNT HEADER1,133
+00018A E020 C4ED 0085 004ED         126          XPRNT HEADER2,133
+000190 E020 C572 0085 00572         127          XPRNT HEADER3,133
+000196 E020 C5F7 0085 005F7         128          XPRNT HEADER4,133
+00019C E020 C67C 0085 0067C         129          XPRNT HEADER5,133
+                                    130 *
+0001A2 1B22                         131          SR    2,2
+                                    132 *
+0001A4 E020 C3E1 0085 003E1         133 NOHDRS   XPRNT DETAIL,133
+0001AA 4120 2001            00001   134          LA    2,1(,2)        INCREMENT LINE COUNTER BY 1
+                                    135 *
+0001AE E000 C2EA 0050 002EA         136          XREAD RECORD,80        MOVE TO NEXT LINE
+                                    137 *
+0001B4 47F0 C02A            0002A   138          B     LOOP             BRANCH TO BEGINNING OF LOOP
+                                    139 *
+0001B8 E020 C468 0085 00468         140 ENDLOOP  XPRNT HEADER1,133
+0001BE E020 C4ED 0085 004ED         141          XPRNT HEADER2,133
+0001C4 E020 C701 0085 00701         142          XPRNT HEADER6,133
+                                    143 *
+0001CA D205 C7AF C350 007AF 00350   144          MVC   OEMPCTR(6),=X'202020202020'
+0001D0 DE05 C7AF C393 007AF 00393   145          ED    OEMPCTR(6),PEMPCTR
+0001D6 E020 C787 0085 00787         146          XPRNT PRNTNEMP,133
+                                    147 *
+0001DC 4110 C856            00856   148          LA    1,OTDEDUCT+3
+0001E0 D206 C853 C361 00853 00361   149          MVC   OTDEDUCT(7),=X'402021204B2020'
+0001E6 DF06 C853 C3C4 00853 003C4   150          EDMK  OTDEDUCT(7),PTDEDUCT
+0001EC 0610                         151          BCTR  1,0
+0001EE 925B 1000      00000         152          MVI   0(1),C'$'
+0001F2 E020 C82D 0085 0082D         153          XPRNT PRNTTD,133
+                                    154 *
+0001F8 4110 C8F8            008F8   155          LA    1,OTBONUS+3
+0001FC D209 C8F5 C356 008F5 00356   156          MVC   OTBONUS(10),=X'4021206B2021204B2020'
+000202 DF09 C8F5 C3C8 008F5 003C8   157          EDMK  OTBONUS(10),PTBONUS
+000208 0610                         158          BCTR  1,0
+00020A 925B 1000      00000         159          MVI   0(1),C'$'
+00020E E020 C8D2 0085 008D2         160          XPRNT PRNTTB,133
+                                    161 *
+000214 F060 C3CC 0004 003CC 00004   162          SRP   PTGRPAY(7),4,0
+00021A 4110 C99C            0099C   163          LA    1,OTGRPAY+3
+00021E D20A C999 C385 00999 00385   164          MVC   OTGRPAY(11),=X'402021206B2021204B2020'
+000224 DF0A C999 C3CC 00999 003CC   165          EDMK  OTGRPAY(11),PTGRPAY
+00022A 0610                         166          BCTR  1,0
+                                                                                                               PAGE    4
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+00022C 925B 1000      00000         167          MVI   0(1),C'$'
+                                    168 *
+000230 F896 C3BA C3CC 003BA 003CC   169          ZAP   PCALC(10),PTGRPAY(7)
+000236 FD92 C3BA C393 003BA 00393   170          DP    PCALC(10),PEMPCTR(3)
+                                    171 *
+00023C 4110 C9CB            009CB   172          LA    1,OAGRPAY+3
+000240 D20A C9C8 C385 009C8 00385   173          MVC   OAGRPAY(11),=X'402021206B2021204B2020'
+000246 DF0A C9C8 C3BA 009C8 003BA   174          EDMK  OAGRPAY(11),PCALC
+00024C 0610                         175          BCTR  1,0
+00024E 925B 1000      00000         176          MVI   0(1),C'$'
+                                    177 *
+000252 E020 C977 0085 00977         178          XPRNT PRNTTGP,133
+                                    179 *
+000258 4110 CA2A            00A2A   180          LA    1,OTWITH+3
+00025C D20A CA27 C385 00A27 00385   181          MVC   OTWITH(11),=X'402021206B2021204B2020'
+000262 DF0A CA27 C3D3 00A27 003D3   182          EDMK  OTWITH(11),PTWITH
+000268 0610                         183          BCTR  1,0
+00026A 925B 1000      00000         184          MVI   0(1),C'$'
+                                    185 *
+00026E F896 C3BA C3D3 003BA 003D3   186          ZAP   PCALC(10),PTWITH(7)
+000274 FD92 C3BA C393 003BA 00393   187          DP    PCALC(10),PEMPCTR(3)
+                                    188 *
+00027A 4110 CA5B            00A5B   189          LA    1,OAWITH+3
+00027E D208 CA58 C37C 00A58 0037C   190          MVC   OAWITH(9),=X'40206B2021204B2020'
+000284 DF08 CA58 C3BB 00A58 003BB   191          EDMK  OAWITH(9),PCALC+1
+00028A 0610                         192          BCTR  1,0
+00028C 925B 1000      00000         193          MVI   0(1),C'$'
+                                    194 *
+000290 E020 CA05 0085 00A05         195          XPRNT PRNTTWH,133
+                                    196 *
+000296 F060 C3DA 0004 003DA 00004   197          SRP   PTNETPAY(7),4,0
+00029C 4110 CAFE            00AFE   198          LA    1,OTNETPAY+3
+0002A0 D20A CAFB C385 00AFB 00385   199          MVC   OTNETPAY(11),=X'402021206B2021204B2020'
+0002A6 DF0A CAFB C3DA 00AFB 003DA   200          EDMK  OTNETPAY(11),PTNETPAY
+0002AC 0610                         201          BCTR  1,0
+0002AE 925B 1000      00000         202          MVI   0(1),C'$'
+                                    203 *
+0002B2 F896 C3BA C3DA 003BA 003DA   204          ZAP   PCALC(10),PTNETPAY(7)
+0002B8 FD92 C3BA C393 003BA 00393   205          DP    PCALC(10),PEMPCTR(3)
+                                    206 *
+0002BE 4110 CB2D            00B2D   207          LA    1,OANETPAY+3
+0002C2 D20A CB2A C385 00B2A 00385   208          MVC   OANETPAY(11),=X'402021206B2021204B2020'
+0002C8 DF0A CB2A C3BA 00B2A 003BA   209          EDMK  OANETPAY(11),PCALC
+0002CE 0610                         210          BCTR  1,0
+0002D0 925B 1000      00000         211          MVI   0(1),C'$'
+                                    212 *
+0002D4 E020 CAD9 0085 00AD9         213          XPRNT PRNTTNP,133
+                                    214 *
+                                    215 *
+0002DA 1BFF                         216          SR    15,15          SET RETURN CODE TO ZERO
+0002DC 58D0 D004            00004   217          L     13,4(,13)      POINT R13 TO CALLER'S SAVE AREA
+0002E0 58E0 D00C            0000C   218          L     14,12(,13)     RESTORE R14
+0002E4 980C D014            00014   219          LM    0,12,20(13)    RESTORE R0 THRU R12
+0002E8 07FE                         220          BR    14             RETURN TO CALLER
+                                    221 *
+0002EA                              222 RECORD   DS    0H
+0002EA                              223 IEMPID   DS    ZL7
+                                                                                                               PAGE    5
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+0002F1                              224          DS    CL1
+0002F2                              225 IHRPAY   DS    ZL5
+0002F7                              226 IHOURS   DS    ZL5
+0002FC                              227 IDEDUCT  DS    ZL5
+000301                              228 IBONUS   DS    ZL5
+000306                              229 IEMPNME  DS    CL25
+00031F                              230          DS    CL27
+                                    231 *
+                                    232          LTORG                    LITERAL ORGANIZATION
+000340 2020206020202120             233                =X'2020206020202120'
+000348 00000012                     234                =F'18'
+00034C 40202120                     235                =X'40202120'
+000350 202020202020                 236                =X'202020202020'
+000356 4021206B2021204B             237                =X'4021206B2021204B2020'
+000360 1C                           238                =PL1'1'
+000361 402021204B2020               239                =X'402021204B2020'
+000368 2021204B202020               240                =X'2021204B202020'
+00036F 4020202020206B20             241                =X'4020202020206B2021204B2020'
+00037C 40206B2021204B20             242                =X'40206B2021204B2020'
+000385 402021206B202120             243                =X'402021206B2021204B2020'
+                                    244 *
+                                    245 * PACKED DECIMAL VARIABLES
+                                    246 *
+000390 00000C                       247 PWITHPCT DC    PL3'0'         PACKED WITHHOLDING PCT FROM FIRST REC
+                                    248 *
+000393 00000C                       249 PEMPCTR  DC    PL3'0'         PACKED EMPLOYEE COUNTER (MAX 999)
+000396 000C                         250 PPAGECTR DC    PL2'0'         PACKED PAGE COUNTER (MAX 999)
+                                    251 *
+000398 0000000C                     252 PEMPID   DC    PL4'0'         PACKED EMPLOYEE ID
+00039C 00000C                       253 PHRPAY   DC    PL3'0'         PACKED EMPLOYEE HOURLY PAY RATE
+00039F 00000C                       254 PHOURS   DC    PL3'0'         PACKED EMPLOYEE HOURS WORKED
+0003A2 00000C                       255 PDEDUCT  DC    PL3'0'         PACKED EMPLOYEE DEDUCTION
+0003A5 00000C                       256 PBONUS   DC    PL3'0'         PACKED EMPLOYEE BONUS
+0003A8 00000000000C                 257 PEMPGPAY DC    PL6'0'         PACKED CALCULATED EMPLOYEE GROSS PAY
+0003AE 00000000000C                 258 PEMPWITH DC    PL6'0'         PACKED CALCULATED EMPLOYEE WITHHOLDING
+0003B4 00000000000C                 259 PEMPNPAY DC    PL6'0'        PACKED CALCULATED EMPLOYEE NET PAY
+                                    260 *
+0003BA 0000000000000000             261 PCALC    DC    PL10'0'        USED TO CALCULATE WITHHOLDING AND AVGS
+                                    262 *
+                                    263 *  PACKED TOTALS FIELDS
+                                    264 *
+0003C4 0000000C                     265 PTDEDUCT DC    PL4'0'         PACKED TOTAL DEDUCTIONS
+0003C8 0000000C                     266 PTBONUS  DC    PL4'0'         PACKED TOTAL BONUSES
+0003CC 0000000000000C               267 PTGRPAY  DC    PL7'0'         PACKED TOTAL GROSS EMPLOYEE PAY
+0003D3 0000000000000C               268 PTWITH   DC    PL7'0'         PACKED TOTAL WITHHOLDING
+0003DA 0000000000000C               269 PTNETPAY DC    PL7'0'         PACKED TOTAL NET EMPLOYEE PAY
+                                    270 *
+0003E1 F0                           271 DETAIL   DC    C'0'
+0003E2                              272 OEMPID   DS    CL8
+0003EA 404040                       273          DC    3C' '
+0003ED                              274 OEMPNME  DS    CL25
+000406 404040                       275          DC    3C' '
+000409                              276 OHRPAY   DS    CL7
+000410 4040404040                   277          DC    5C' '
+000415                              278 OHOURS   DS    CL7
+00041C 4040404040                   279          DC    5C' '
+000421                              280 ODEDUCT  DS    CL7
+                                                                                                               PAGE    6
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+000428 404040                       281          DC    3C' '
+00042B                              282 OBONUS   DS    CL7
+000432 4040404040                   283          DC    5C' '
+000437                              284 OGPAY    DS    CL13
+000444 4040404040                   285          DC    5C' '
+000449                              286 OWITH    DS    CL13
+000456 4040404040404040             287          DC    9C' '
+00045F                              288 ONETPAY  DS    CL9
+                                    289 *
+000468 F1                           290 HEADER1  DC    C'1'
+000469 4040404040404040             291          DC    49C' '
+00049A C6C5C5D3C9D5C7E2             292          DC    C'FEELINGS MUTUAL INSURANCE COMPANY'
+0004BB 4040404040404040             293          DC    40C' '
+0004E3 D7C1C7C57A40                 294          DC    C'PAGE: '
+0004E9                              295 OPAGECTR DS    CL4
+                                    296 *
+0004ED 40                           297 HEADER2  DC    C' '
+0004EE 4040404040404040             298          DC    48C' '
+00051E E2C5D4C960D4D6D5             299          DC    C'SEMI-MONTHLY EMPLOYEE PAYROLL REPORT'
+000542 4040404040404040             300          DC    48C' '
+                                    301 *
+000572 F0                           302 HEADER3  DC    C'0'
+000573 C5D4D7D3D6E8C5C5             303          DC    C'EMPLOYEE'
+00057B 404040                       304          DC    3C' '
+00057E C5D4D7D3D6E8C5C5             305          DC    C'EMPLOYEE'
+000586 4040404040404040             306          DC    21C' '
+00059B C8D6E4D9D3E8                 307          DC    C'HOURLY'
+0005A1 4040404040                   308          DC    5C' '
+0005A6 C8D6E4D9E2                   309          DC    C'HOURS'
+0005AB 404040                       310          DC    3C' '
+0005AE C4C5C4E4C3E3C9D6             311          DC    C'DEDUCTION'
+0005B7 4040404040                   312          DC    5C' '
+0005BC C2D6D5E4E2                   313          DC    C'BONUS'
+0005C1 4040404040404040             314          DC    10C' '
+0005CB C5D4D7D3D6E8C5C5             315          DC    C'EMPLOYEE'
+0005D3 4040404040404040             316          DC    10C' '
+0005DD C5D4D7D3D6E8C5C5             317          DC    C'EMPLOYEE'
+0005E5 4040404040404040             318          DC    10C' '
+0005EF C5D4D7D3D6E8C5C5             319          DC    C'EMPLOYEE'
+                                    320 *
+0005F7 40                           321 HEADER4  DC    C' '
+0005F8 C9C4                         322          DC    C'ID'
+0005FA 4040404040404040             323          DC    9C' '
+000603 D5C1D4C5                     324          DC    C'NAME'
+000607 4040404040404040             325          DC    28C' '
+000623 D7C1E8                       326          DC    C'PAY'
+000626 40404040                     327          DC    4C' '
+00062A E6D6D9D2C5C4                 328          DC    C'WORKED'
+000630 404040404040                 329          DC    6C' '
+000636 C1D4D6E4D5E3                 330          DC    C'AMOUNT'
+00063C 40404040                     331          DC    4C' '
+000640 C1D4D6E4D5E3                 332          DC    C'AMOUNT'
+000646 4040404040404040             333          DC    9C' '
+00064F C7D9D6E2E240D7C1             334          DC    C'GROSS PAY'
+000658 40404040404040               335          DC    7C' '
+00065F E6C9E3C8C8D6D3C4             336          DC    C'WITHHOLDING'
+00066A 4040404040404040             337          DC    11C' '
+                                                                                                               PAGE    7
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+000675 D5C5E340D7C1E8               338          DC    C'NET PAY'
+                                    339 *
+00067C 40                           340 HEADER5  DC    C' '
+00067D 6060606060606060             341          DC    8C'-'
+000685 404040                       342          DC    3C' '
+000688 6060606060606060             343          DC    25C'-'
+0006A1 404040                       344          DC    3C' '
+0006A4 60606060606060               345          DC    7C'-'
+0006AB 404040                       346          DC    3C' '
+0006AE 60606060606060               347          DC    7C'-'
+0006B5 404040                       348          DC    3C' '
+0006B8 6060606060606060             349          DC    9C'-'
+0006C1 404040                       350          DC    3C' '
+0006C4 60606060606060               351          DC    7C'-'
+0006CB 404040                       352          DC    3C' '
+0006CE 6060606060606060             353          DC    15C'-'
+0006DD 404040                       354          DC    3C' '
+0006E0 6060606060606060             355          DC    15C'-'
+0006EF 404040                       356          DC    3C' '
+0006F2 6060606060606060             357          DC    15C'-'
+                                    358 *
+000701 40                           359 HEADER6  DC    C' '
+000702 4040404040404040             360          DC    64C' '
+000742 E3D6E3C1D3                   361          DC    C'TOTAL'
+000747 4040404040404040             362          DC    64C' '
+                                    363 *
+000787 F0                           364 PRNTNEMP DC    C'0'
+000788 40                           365          DC    1C' '
+000789 D5E4D4C2C5D940D6             366          DC    C'NUMBER OF EMPLOYEES: '
+00079E 4040404040404040             367          DC    17C' '
+0007AF                              368 OEMPCTR  DS    CL6
+0007B5 4040404040404040             369          DC    120C' '
+                                    370 *
+00082D F0                           371 PRNTTD   DC    C'0'
+00082E 40404040                     372          DC    4C' '
+000832 E3D6E3C1D340C4C5             373          DC    C'TOTAL DEDUCTIONS: '
+000844 4040404040404040             374          DC    15C' '
+000853                              375 OTDEDUCT DS    CL7
+00085A 4040404040404040             376          DC    120C' '
+                                    377 *
+0008D2 F0                           378 PRNTTB   DC    C'0'
+0008D3 40404040404040               379          DC    7C' '
+0008DA E3D6E3C1D340C2D6             380          DC    C'TOTAL BONUSES: '
+0008E9 4040404040404040             381          DC    12C' '
+0008F5                              382 OTBONUS  DS    CL10
+0008FF 4040404040404040             383          DC    120C' '
+                                    384 *
+000977 F0                           385 PRNTTGP  DC    C'0'
+000978 4040404040                   386          DC    5C' '
+00097D E3D6E3C1D340C7D9             387          DC    C'TOTAL GROSS PAY: '
+00098E 4040404040404040             388          DC    11C' '
+000999                              389 OTGRPAY  DS    CL11
+0009A4 4040404040404040             390          DC    12C' '
+0009B0 C1E5C5D9C1C7C540             391          DC    C'AVERAGE GROSS PAY: '
+0009C3 4040404040                   392          DC    5C' '
+0009C8                              393 OAGRPAY  DS    CL11
+0009D3 4040404040404040             394          DC    50C' '
+                                                                                                               PAGE    8
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                    395 *
+000A05 F0                           396 PRNTTWH  DC    C'0'
+000A06 404040                       397          DC    3C' '
+000A09 E3D6E3C1D340E6C9             398          DC    C'TOTAL WITHHOLDING: '
+000A1C 4040404040404040             399          DC    11C' '
+000A27                              400 OTWITH   DS    CL11
+000A32 4040404040404040             401          DC    10C' '
+000A3C C1E5C5D9C1C7C540             402          DC    C'AVERAGE WITHHOLDING: '
+000A51 40404040404040               403          DC    7C' '
+000A58                              404 OAWITH   DS    CL9
+000A61 4040404040404040             405          DC    120C' '
+                                    406 *
+000AD9 F0                           407 PRNTTNP  DC    C'0'
+000ADA 40404040404040               408          DC    7C' '
+000AE1 E3D6E3C1D340D5C5             409          DC    C'TOTAL NET PAY: '
+000AF0 4040404040404040             410          DC    11C' '
+000AFB                              411 OTNETPAY DS    CL11
+000B06 4040404040404040             412          DC    14C' '
+000B14 C1E5C5D9C1C7C540             413          DC    C'AVERAGE NET PAY: '
+000B25 4040404040                   414          DC    5C' '
+000B2A                              415 OANETPAY DS    CL11
+000B35 4040404040404040             416          DC    120C' '
+                                    417 *
+000BB0 FFFFFFFFFFFFFFFF             418 PR2SAVE  DC    18F'-1'            CURRENT REGISTER SAVE AREA
+                                    419 *
+                                    420          END   PAYROLL2
+***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS
+*** DYNAMIC CORE AREA USED:  LOW:   16892 HIGH:    1908 LEAVING:  474768 FREE BYTES. AVERAGE:       44 BYTES/STMT ***
+*** ASSEMBLY TIME =    0.001 SECS,   421000 STATEMENTS/SEC ***
+*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***
+                                                 FEELINGS MUTUAL INSURANCE COMPANY                                        PAGE:    1
+                                                SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE   EMPLOYEE                     HOURLY     HOURS   DEDUCTION     BONUS          EMPLOYEE          EMPLOYEE          EMPLOYEE
+ID         NAME                            PAY    WORKED      AMOUNT    AMOUNT         GROSS PAY       WITHHOLDING           NET PAY
+--------   -------------------------   -------   -------   ---------   -------   ---------------   ---------------   ---------------
+523-4524   WOLFGANG AMADEUS MOZART      $15.25     80.50      $25.10   $520.22         $1,722.75           $323.01         $1,399.
+134-5632   RICHARD STRAUSS              $19.00     80.75       $0.00    $13.44         $1,547.69           $290.19         $1,257.
+340-3223   AMY BEACH                    $10.29     80.00      $31.23   $254.00         $1,045.97           $196.11           $849.
+164-6512   JOHANNES BRAHMS              $22.00     77.00      $15.09   $900.25         $2,579.16           $483.59         $2,095.
+765-6002   PETER ILYICH TCHAIKOVSKY     $23.75     28.25      $34.15    $73.85           $710.64           $133.24           $577.
+238-7032   ANTON BRUCKNER               $22.95     80.50      $21.25     $0.00         $1,826.23           $342.41         $1,483.
+949-6627   LUDWIG VAN BEETHOVEN         $23.20     78.67       $0.79   $220.23         $2,044.58           $383.35         $1,661.
+523-4524   ETHEL SMYTH                  $15.25     80.50      $25.10   $600.22         $1,802.75           $338.01         $1,464.
+134-5632   BELA BARTOK                  $19.00     80.77       $0.00    $12.22         $1,546.85           $290.03         $1,256.
+340-3223   CLARA SCHUMANN               $10.29     80.00      $31.23   $254.00         $1,045.97           $196.11           $849.
+164-6512   FANNY MENDELSSOHN            $22.00     80.00      $15.09   $900.25         $2,645.16           $495.96         $2,149.
+765-6002   GIUSEPPE VERDI               $23.75     28.25      $34.15    $70.85           $707.64           $132.68           $574.
+238-7032   JOHANN SEBASTIAN BACH        $22.95     80.50      $21.25     $0.00         $1,826.23           $342.41         $1,483.
+949-6627   NADIA BOULANGER              $20.20     78.67       $0.79   $210.23         $1,798.57           $337.23         $1,461.
+523-4524   GEORG FRIEDRICH HANDEL       $15.25     80.50      $25.10   $500.22         $1,702.75           $319.26         $1,383.
+134-5632   LILI BOULANGER               $19.00     80.75       $0.00    $13.44         $1,547.69           $290.19         $1,257.
+340-3223   NIKOLAI RIMSKY-KORSAKOV      $10.29     80.00      $31.23   $255.00         $1,046.97           $196.30           $850.
+164-6512   CLAUDE DEBUSSY               $22.00     80.00      $15.09   $900.25         $2,645.16           $495.96         $2,149.
+                                                 FEELINGS MUTUAL INSURANCE COMPANY                                        PAGE:    2
+                                                SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE   EMPLOYEE                     HOURLY     HOURS   DEDUCTION     BONUS          EMPLOYEE          EMPLOYEE          EMPLOYEE
+ID         NAME                            PAY    WORKED      AMOUNT    AMOUNT         GROSS PAY       WITHHOLDING           NET PAY
+--------   -------------------------   -------   -------   ---------   -------   ---------------   ---------------   ---------------
+765-6002   ALMA MAHLER                  $23.75     28.25      $34.15    $70.85           $707.64           $132.68           $574.
+238-7032   THOMAS TALLIS                $22.95     80.50      $21.25     $0.00         $1,826.23           $342.41         $1,483.
+989-9627   RALPH VAUGHAN WILLIAMS       $20.20     78.67       $0.79   $210.23         $1,798.57           $337.23         $1,461.
+523-7724   RICHARD WAGNER               $15.25     80.50      $25.10   $500.22         $1,702.75           $319.26         $1,383.
+135-6632   JUDITH WEIR                  $19.00     80.75       $0.00    $13.44         $1,547.69           $290.19         $1,257.
+340-3223   JOAN TOWER                  $330.29     80.00      $31.23   $254.00        $26,645.97         $4,996.11         $1,649.
+523-4524   HUBERT PARRY                 $15.25     80.50      $25.10   $520.22         $1,722.75           $323.01         $1,399.
+134-5632   FRANZ SCHUBERT               $19.00     80.75       $0.00    $13.44         $1,547.69           $290.19         $1,257.
+340-3223   SHULAMIT RAN                 $10.29     80.00      $31.23   $254.00         $1,045.97           $196.11           $849.
+164-6512   MAX REGER                    $22.00     77.00      $15.09   $900.25         $2,579.16           $483.59         $2,095.
+765-6002   JULIA PERRY                  $23.75     28.25      $34.15    $73.85           $710.64           $133.24           $577.
+238-7032   EDWARD ELGAR                 $22.95     80.50      $21.25     $0.00         $1,826.23           $342.41         $1,483.
+949-6627   UNDINE SMITH MOORE           $23.20     78.67       $0.79   $220.23         $2,044.58           $383.35         $1,661.
+523-4524   JOSEPH HAYDN                 $15.25     80.50      $25.10   $600.22         $1,802.75           $338.01         $1,464.
+134-5632   BARBARA STROZZI              $19.00     80.77       $0.00    $12.22         $1,546.85           $290.03         $1,256.
+340-3223   SHIRLEY GRAHAM DU BOIS       $10.29     80.00      $31.23   $254.00         $1,045.97           $196.11           $849.
+164-6512   NORA HOLD                    $22.00     80.00      $15.09   $900.25         $2,645.16           $495.96         $2,149.
+765-6002   SAMUEL BARBER                $23.75     28.25      $34.15    $70.85           $707.64           $132.68           $574.
+                                                 FEELINGS MUTUAL INSURANCE COMPANY                                        PAGE:    3
+                                                SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE   EMPLOYEE                     HOURLY     HOURS   DEDUCTION     BONUS          EMPLOYEE          EMPLOYEE          EMPLOYEE
+ID         NAME                            PAY    WORKED      AMOUNT    AMOUNT         GROSS PAY       WITHHOLDING           NET PAY
+--------   -------------------------   -------   -------   ---------   -------   ---------------   ---------------   ---------------
+238-7032   SOFIA GUBAIDULINA            $22.95     80.50      $21.25     $0.00         $1,826.23           $342.41         $1,483.
+949-6627   CECILE CHAMINADE             $20.20     78.67       $0.79   $210.23         $1,798.57           $337.23         $1,461.
+523-4524   GRAZYNA BACEWICZ             $15.25     80.50      $25.10   $500.22         $1,702.75           $319.26         $1,383.
+134-5632   EVA JESSYE                   $19.00     80.75       $0.00    $13.44         $1,547.69           $290.19         $1,257.
+340-3223   THEA MUSGRAVE                $10.29     80.00      $31.23   $255.00         $1,046.97           $196.30           $850.
+164-6512   JEANNE LEE                   $22.00     80.00      $15.09   $900.25         $2,645.16           $495.96         $2,149.
+765-6002   LIBBY LARSEN                 $23.75     28.25      $34.15    $70.85           $707.64           $132.68           $574.
+238-7032   DMITRI SCHOSTAKOWITSCH       $22.95     80.50      $21.25     $0.00         $1,826.23           $342.41         $1,483.
+989-9627   ELLEN TAAFE ZWILICH          $20.20     78.67       $0.79   $210.23         $1,798.57           $337.23         $1,461.
+523-7724   ANTONIN DVORAK               $15.25     80.50      $25.10   $500.22         $1,702.75           $319.26         $1,383.
+135-6632   JENNIFER HIGDON              $19.00     80.75       $0.00    $13.44         $1,547.69           $290.19         $1,257.
+340-3223   FLORENCE PRICE              $330.29     80.00      $31.23   $254.00        $26,645.97         $4,996.11         $1,649.
+                                                 FEELINGS MUTUAL INSURANCE COMPANY                                        PAGE:    3
+                                                SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+                                                                TOTAL
+ NUMBER OF EMPLOYEES:                  48
+    TOTAL DEDUCTIONS:                $499.61
+       TOTAL BONUSES:             $13,494.82
+     TOTAL GROSS PAY:            $128,043.22            AVERAGE GROSS PAY:        $2,667.56
+   TOTAL WITHHOLDING:             $24,008.10          AVERAGE WITHHOLDING:          $500.16
+       TOTAL NET PAY:            $104,035.14              AVERAGE NET PAY:        $2,167.39
+*** EXECUTION TIME =    0.001 SECS.      3366 INSTRUCTIONS EXECUTED -  3366000 INSTRUCTIONS/SEC ***
+*** AM004 - NORMAL USER TERMINATION BY RETURN ***
