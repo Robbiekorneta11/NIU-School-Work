@@ -11,6 +11,9 @@ CSCI 340 - Data Structures and Algorithm Analysis - Grade: A
     * structures. Utilization of algorithmic analysis and design criteria in the selection of methods 
     * for data manipulation. Computing projects done in a high-level computing language.
     
-CSCI 360 - Computer Programming in Assembler Language
+CSCI 360 - Computer Programming in Assembler Language - Grade: B
     * In-depth study of assembler language programming on a third-generation computer, 
     * including internal and external subroutines, conditional assembly, and the macro language.
+    
+CSCI 466 - Databases
+    * Software development in a representative current database system.
