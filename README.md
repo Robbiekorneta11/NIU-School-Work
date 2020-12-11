@@ -5,6 +5,12 @@ CSCI 241 - Intermediate Programming - Grade: B
     * of data structures applied to large-scale projects. Topics include static and dynamic 
     * implementation of linear and nonlinear data structures, recursion, searching and sorting 
     * algorithms, and algorithmic complexity analysis.
+    
+CSCI 321 - iOS Mobile Device Programming
+    * Comprehensive introduction to building applications for mobile devices that use Apple’s 
+    * iOS operating system. Topics covered will include application of Model-View-Controller 
+    * design architecture, graphics, rich media content, multithreading, networking and interaction 
+    * with hardware sensors. 
 
 CSCI 340 - Data Structures and Algorithm Analysis - Grade: A
     * Application of analysis and design techniques to nonnumeric algorithms acting on data 

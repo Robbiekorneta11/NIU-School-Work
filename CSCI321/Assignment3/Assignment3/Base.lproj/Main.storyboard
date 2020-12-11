@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0D7-Lw-tcK">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="digital-7.ttf">
+            <string>Digital-7</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Temperature-->
+        <scene sceneID="Drq-yq-pv2">
+            <objects>
+                <viewController id="1N0-4C-GQX" customClass="TemperatureViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="df4-tq-dIM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperature Conversion" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNp-yR-MZN">
+                                <rect key="frame" x="16" y="20" width="288" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mdz-a6-s1X">
+                                <rect key="frame" x="95" y="71.5" width="131" height="32"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                                <connections>
+                                    <action selector="tempIndexChanged:" destination="1N0-4C-GQX" eventType="valueChanged" id="Di3-HX-uii"/>
+                                </connections>
+                            </segmentedControl>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6g-Wj-fXm">
+                                <rect key="frame" x="0.0" y="128" width="320" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="1N0-4C-GQX" id="Lyv-kv-kiR"/>
+                                    <outlet property="delegate" destination="1N0-4C-GQX" id="y2L-9G-Jqq"/>
+                                </connections>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-63 C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9If-gx-idp">
+                                <rect key="frame" x="16" y="351.5" width="288" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="mdz-a6-s1X" firstAttribute="top" secondItem="kNp-yR-MZN" secondAttribute="bottom" constant="25" id="2cu-HV-mcO"/>
+                            <constraint firstItem="mdz-a6-s1X" firstAttribute="leading" secondItem="V6u-fu-7Oc" secondAttribute="leading" constant="95" id="2xz-Rw-iaF"/>
+                            <constraint firstItem="kNp-yR-MZN" firstAttribute="top" secondItem="V6u-fu-7Oc" secondAttribute="top" constant="20" id="ACf-oa-rzP"/>
+                            <constraint firstItem="V6u-fu-7Oc" firstAttribute="trailing" secondItem="mdz-a6-s1X" secondAttribute="trailing" constant="94" id="Gij-hM-QYN"/>
+                            <constraint firstItem="9If-gx-idp" firstAttribute="top" secondItem="e6g-Wj-fXm" secondAttribute="bottom" constant="8" id="LBc-LM-C0d"/>
+                            <constraint firstItem="9If-gx-idp" firstAttribute="leading" secondItem="V6u-fu-7Oc" secondAttribute="leading" constant="16" id="UaC-eV-U5t"/>
+                            <constraint firstItem="e6g-Wj-fXm" firstAttribute="top" secondItem="mdz-a6-s1X" secondAttribute="bottom" constant="25" id="cMS-9c-YD7"/>
+                            <constraint firstItem="V6u-fu-7Oc" firstAttribute="trailing" secondItem="9If-gx-idp" secondAttribute="trailing" constant="16" id="fEK-gv-k48"/>
+                            <constraint firstItem="V6u-fu-7Oc" firstAttribute="trailing" secondItem="kNp-yR-MZN" secondAttribute="trailing" constant="16" id="mcE-6v-lhv"/>
+                            <constraint firstItem="e6g-Wj-fXm" firstAttribute="trailing" secondItem="V6u-fu-7Oc" secondAttribute="trailing" id="ofc-eQ-Aqp"/>
+                            <constraint firstItem="kNp-yR-MZN" firstAttribute="leading" secondItem="V6u-fu-7Oc" secondAttribute="leading" constant="16" id="pEi-Ew-X4X"/>
+                            <constraint firstItem="e6g-Wj-fXm" firstAttribute="leading" secondItem="V6u-fu-7Oc" secondAttribute="leading" id="wae-M8-P5e"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="V6u-fu-7Oc"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Temperature" image="thermometer" catalog="system" id="UkG-rE-mU0"/>
+                    <connections>
+                        <outlet property="tempConversionSegControl" destination="mdz-a6-s1X" id="a7R-wT-nEX"/>
+                        <outlet property="temperatureLabel" destination="9If-gx-idp" id="PIW-No-kqc"/>
+                        <outlet property="temperaturePicker" destination="e6g-Wj-fXm" id="fdI-2b-8rW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xbK-qY-3J1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1470" y="445.77464788732397"/>
+        </scene>
+        <!--Stopwatch-->
+        <scene sceneID="BnP-Mp-JK3">
+            <objects>
+                <viewController id="b2C-fC-3SC" customClass="StopwatchViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rmX-SH-mYd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="exG-SE-egz">
+                                <rect key="frame" x="0.0" y="474" width="320" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="AMc-ym-k5O"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="Item" image="play.fill" catalog="system" width="86.5" id="Fvl-Tt-NCW">
+                                        <connections>
+                                            <action selector="startTimer:" destination="b2C-fC-3SC" id="OhI-bI-hVP"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="bzY-Ic-1er"/>
+                                    <barButtonItem title="Item" image="stop.fill" catalog="system" width="88.5" id="MZr-ja-RTf">
+                                        <connections>
+                                            <action selector="stopTimer:" destination="b2C-fC-3SC" id="BEV-nC-JiU"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stopwatch" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="cfA-ZP-z1e">
+                                <rect key="frame" x="16" y="20" width="288" height="30"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnx-CS-eF6">
+                                <rect key="frame" x="16" y="314" width="288" height="32"/>
+                                <fontDescription key="fontDescription" name="Digital-7" family="Digital-7" pointSize="35"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="countDownTimer" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tgc-3f-m6w">
+                                <rect key="frame" x="0.0" y="78" width="320" height="216"/>
+                                <connections>
+                                    <action selector="selectTime:" destination="b2C-fC-3SC" eventType="valueChanged" id="IHl-xn-ET1"/>
+                                </connections>
+                            </datePicker>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="edZ-Cm-JYH" firstAttribute="trailing" secondItem="Xnx-CS-eF6" secondAttribute="trailing" constant="16" id="4MR-Wy-zEb"/>
+                            <constraint firstItem="Xnx-CS-eF6" firstAttribute="top" secondItem="Tgc-3f-m6w" secondAttribute="bottom" constant="20" id="4Us-xp-nqR"/>
+                            <constraint firstItem="Tgc-3f-m6w" firstAttribute="leading" secondItem="edZ-Cm-JYH" secondAttribute="leading" id="8qk-dv-a8C"/>
+                            <constraint firstItem="cfA-ZP-z1e" firstAttribute="leading" secondItem="edZ-Cm-JYH" secondAttribute="leading" constant="16" id="Cdk-pD-76y"/>
+                            <constraint firstItem="Tgc-3f-m6w" firstAttribute="leading" secondItem="edZ-Cm-JYH" secondAttribute="leading" id="FXF-y1-zT9"/>
+                            <constraint firstItem="Tgc-3f-m6w" firstAttribute="trailing" secondItem="edZ-Cm-JYH" secondAttribute="trailing" id="Fk3-eW-CcB"/>
+                            <constraint firstItem="exG-SE-egz" firstAttribute="leading" secondItem="edZ-Cm-JYH" secondAttribute="leading" id="GNh-UN-zFG"/>
+                            <constraint firstItem="cfA-ZP-z1e" firstAttribute="top" secondItem="edZ-Cm-JYH" secondAttribute="top" constant="20" id="Vpv-70-cz7"/>
+                            <constraint firstItem="Tgc-3f-m6w" firstAttribute="top" secondItem="cfA-ZP-z1e" secondAttribute="bottom" constant="28" id="ZQr-sV-2Od"/>
+                            <constraint firstItem="exG-SE-egz" firstAttribute="trailing" secondItem="edZ-Cm-JYH" secondAttribute="trailing" id="cT5-9y-iP8"/>
+                            <constraint firstItem="exG-SE-egz" firstAttribute="bottom" secondItem="edZ-Cm-JYH" secondAttribute="bottom" id="elq-0k-PlN"/>
+                            <constraint firstItem="Xnx-CS-eF6" firstAttribute="leading" secondItem="edZ-Cm-JYH" secondAttribute="leading" constant="16" id="jR8-xc-ZlB"/>
+                            <constraint firstItem="Tgc-3f-m6w" firstAttribute="trailing" secondItem="edZ-Cm-JYH" secondAttribute="trailing" id="t4V-Th-1qF"/>
+                            <constraint firstItem="edZ-Cm-JYH" firstAttribute="trailing" secondItem="cfA-ZP-z1e" secondAttribute="trailing" constant="16" id="xWS-Ic-4Jz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="edZ-Cm-JYH"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Stopwatch" image="stopwatch" catalog="system" selectedImage="stopwatch" id="Neg-TR-7vZ"/>
+                    <connections>
+                        <outlet property="startButton" destination="Fvl-Tt-NCW" id="WBQ-nS-oY3"/>
+                        <outlet property="stopButton" destination="MZr-ja-RTf" id="WX9-3l-I0Z"/>
+                        <outlet property="timerLabel" destination="Xnx-CS-eF6" id="F7e-Fc-Nc2"/>
+                        <outlet property="timerPicker" destination="Tgc-3f-m6w" id="pnQ-Pd-B4J"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j8S-8A-Yfu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1470" y="-202.81690140845072"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="2em-kl-11e">
+            <objects>
+                <tabBarController id="0D7-Lw-tcK" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WZI-pP-dOl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="b2C-fC-3SC" kind="relationship" relationship="viewControllers" id="u6c-qz-aL6"/>
+                        <segue destination="1N0-4C-GQX" kind="relationship" relationship="viewControllers" id="8Jg-PQ-STj"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mdV-3v-Vem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="551" y="123"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="play.fill" catalog="system" width="116" height="128"/>
+        <image name="stop.fill" catalog="system" width="128" height="113"/>
+        <image name="stopwatch" catalog="system" width="121" height="128"/>
+        <image name="thermometer" catalog="system" width="87" height="128"/>
+    </resources>
+</document>

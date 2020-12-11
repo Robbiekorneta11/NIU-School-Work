@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bzv-Ic-J3g">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="tkC-lg-F6A">
+            <objects>
+                <navigationController id="bzv-Ic-J3g" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yTO-xn-BkD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="sIZ-Xg-QTz" kind="relationship" relationship="rootViewController" id="MUH-oj-FSd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Ua-o5-OJc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-769" y="-590"/>
+        </scene>
+        <!--U.S. Presidents-->
+        <scene sceneID="oa1-z3-Ldi">
+            <objects>
+                <viewController id="sIZ-Xg-QTz" customClass="ViewPresidentsViewController" customModule="Assignment5" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aWG-MS-930">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bv2-qv-L2C">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PresidentTableViewCell" rowHeight="110" id="gVP-hR-SiS" customClass="PresidentTableViewCell" customModule="Assignment5" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="110"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gVP-hR-SiS" id="lQ8-yg-2ad">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="President Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Oap-Bv-x8h">
+                                                    <rect key="frame" x="81" y="11" width="279" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U1V-DC-LwZ">
+                                                    <rect key="frame" x="10" y="10" width="60" height="90"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="NLU-pw-hCc"/>
+                                                        <constraint firstAttribute="height" constant="90" id="sCZ-Tg-fss"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Politcal Affiliation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VaS-8i-6Aq">
+                                                    <rect key="frame" x="81" y="49" width="279" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="VaS-8i-6Aq" firstAttribute="leading" secondItem="U1V-DC-LwZ" secondAttribute="trailing" constant="11" id="A7l-HD-Jjp"/>
+                                                <constraint firstItem="U1V-DC-LwZ" firstAttribute="top" secondItem="lQ8-yg-2ad" secondAttribute="top" constant="10" id="JG8-BI-tO7"/>
+                                                <constraint firstAttribute="trailing" secondItem="VaS-8i-6Aq" secondAttribute="trailing" constant="15" id="NfU-38-6ao"/>
+                                                <constraint firstItem="Oap-Bv-x8h" firstAttribute="top" secondItem="lQ8-yg-2ad" secondAttribute="top" constant="11" id="PPN-A1-ZwI"/>
+                                                <constraint firstItem="Oap-Bv-x8h" firstAttribute="leading" secondItem="U1V-DC-LwZ" secondAttribute="trailing" constant="11" id="Xa6-IC-soQ"/>
+                                                <constraint firstItem="VaS-8i-6Aq" firstAttribute="top" secondItem="Oap-Bv-x8h" secondAttribute="bottom" constant="8" id="dY4-dt-vlN"/>
+                                                <constraint firstAttribute="bottom" secondItem="VaS-8i-6Aq" secondAttribute="bottom" constant="37" id="jNp-y2-ed0"/>
+                                                <constraint firstAttribute="trailing" secondItem="Oap-Bv-x8h" secondAttribute="trailing" constant="15" id="lXq-Dd-dB1"/>
+                                                <constraint firstItem="U1V-DC-LwZ" firstAttribute="leading" secondItem="lQ8-yg-2ad" secondAttribute="leading" constant="10" id="mQX-3m-m0r"/>
+                                                <constraint firstAttribute="bottom" secondItem="U1V-DC-LwZ" secondAttribute="bottom" constant="10" id="zU3-dh-66k"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="politicalAffiliationLabel" destination="VaS-8i-6Aq" id="peJ-jt-Jxw"/>
+                                            <outlet property="presidentImageView" destination="U1V-DC-LwZ" id="A98-kC-IIj"/>
+                                            <outlet property="presidentNameLabel" destination="Oap-Bv-x8h" id="zZX-ud-but"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="sIZ-Xg-QTz" id="UJz-P9-3Yb"/>
+                                    <outlet property="delegate" destination="sIZ-Xg-QTz" id="JdD-Qw-fnc"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Bv2-qv-L2C" firstAttribute="trailing" secondItem="cIO-2b-Sfw" secondAttribute="trailing" id="4NA-Ut-rfO"/>
+                            <constraint firstItem="Bv2-qv-L2C" firstAttribute="leading" secondItem="cIO-2b-Sfw" secondAttribute="leading" id="FbW-Sd-12y"/>
+                            <constraint firstItem="Bv2-qv-L2C" firstAttribute="bottom" secondItem="cIO-2b-Sfw" secondAttribute="bottom" id="Ncj-TC-MLY"/>
+                            <constraint firstItem="Bv2-qv-L2C" firstAttribute="top" secondItem="cIO-2b-Sfw" secondAttribute="top" id="Oc0-Eo-klE"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cIO-2b-Sfw"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="U.S. Presidents" id="Dff-eM-f5P"/>
+                    <connections>
+                        <outlet property="tableView" destination="Bv2-qv-L2C" id="hT4-tM-qyC"/>
+                        <segue destination="EwA-b8-Fsn" kind="show" identifier="PresidentDetails" id="RoU-5z-Hlo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kdS-g2-BA9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="12" y="-588.75562218890559"/>
+        </scene>
+        <!--President Detail View Controller-->
+        <scene sceneID="72D-IF-hEO">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="EwA-b8-Fsn" customClass="PresidentDetailViewController" customModule="Assignment5" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M8E-BL-5Xn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="President Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0q5-hZ-baq">
+                                <rect key="frame" x="16" y="59" width="343" height="30"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="President Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ik-9U-Hg4">
+                                <rect key="frame" x="16" y="97" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Dates of Presidency)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFN-az-hQf">
+                                <rect key="frame" x="16" y="126" width="343" height="18"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="seal" translatesAutoresizingMaskIntoConstraints="NO" id="xmu-jd-7yn">
+                                <rect key="frame" x="37.5" y="167" width="300" height="333.5"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nicknames" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bos-Oi-8Uy">
+                                <rect key="frame" x="16" y="500.5" width="343" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;Nickname 1&quot;; &quot;Nickname 2&quot;; &quot;Nickname 3&quot;; &quot;Nickname 4&quot;; &quot;Nickname 5&quot;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rc0-a8-CG9">
+                                <rect key="frame" x="16" y="525" width="343" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Political Party" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNc-PW-2oM">
+                                <rect key="frame" x="16" y="568.5" width="343" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Political Party" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKr-N7-taq">
+                                <rect key="frame" x="16" y="593" width="343" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="8Ik-9U-Hg4" secondAttribute="trailing" constant="16" id="0jW-Er-UD3"/>
+                            <constraint firstItem="Rc0-a8-CG9" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="5Sy-yf-3TG"/>
+                            <constraint firstItem="UKr-N7-taq" firstAttribute="top" secondItem="wNc-PW-2oM" secondAttribute="bottom" constant="5" id="5WD-Nf-Mgy"/>
+                            <constraint firstItem="wNc-PW-2oM" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="5x1-wB-m0d"/>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="UKr-N7-taq" secondAttribute="trailing" constant="16" id="784-RT-N1u"/>
+                            <constraint firstItem="UKr-N7-taq" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="ARw-cn-X0J"/>
+                            <constraint firstItem="wNc-PW-2oM" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="Eyq-j3-ge1"/>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="Rc0-a8-CG9" secondAttribute="trailing" constant="16" id="IIv-B5-G8u"/>
+                            <constraint firstItem="xmu-jd-7yn" firstAttribute="centerY" secondItem="M8E-BL-5Xn" secondAttribute="centerY" id="JwM-nB-iZv"/>
+                            <constraint firstItem="8Ik-9U-Hg4" firstAttribute="top" secondItem="0q5-hZ-baq" secondAttribute="bottom" constant="8" id="KN3-iJ-qPK"/>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="0q5-hZ-baq" secondAttribute="trailing" constant="16" id="Kht-eQ-EWk"/>
+                            <constraint firstItem="wNc-PW-2oM" firstAttribute="top" secondItem="Rc0-a8-CG9" secondAttribute="bottom" constant="10" id="MRX-Bg-yIn"/>
+                            <constraint firstItem="uFN-az-hQf" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="PSU-md-8c4"/>
+                            <constraint firstItem="0q5-hZ-baq" firstAttribute="top" secondItem="Egg-30-j05" secondAttribute="top" constant="15" id="PuU-Sa-RoT"/>
+                            <constraint firstItem="xmu-jd-7yn" firstAttribute="height" secondItem="M8E-BL-5Xn" secondAttribute="height" multiplier="0.5" id="RXG-cx-Nm1"/>
+                            <constraint firstItem="uFN-az-hQf" firstAttribute="top" secondItem="8Ik-9U-Hg4" secondAttribute="bottom" constant="8" id="RyL-IE-0Uq"/>
+                            <constraint firstItem="Rc0-a8-CG9" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="SAM-3H-twg"/>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="Bos-Oi-8Uy" secondAttribute="trailing" constant="16" id="See-ZN-9R9"/>
+                            <constraint firstItem="Bos-Oi-8Uy" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="U9T-3J-O0x"/>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="wNc-PW-2oM" secondAttribute="trailing" constant="16" id="Uq7-qT-Ph4"/>
+                            <constraint firstItem="Egg-30-j05" firstAttribute="trailing" secondItem="uFN-az-hQf" secondAttribute="trailing" constant="16" id="asy-X0-dV5"/>
+                            <constraint firstItem="uFN-az-hQf" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="dgk-Bm-hCO"/>
+                            <constraint firstItem="xmu-jd-7yn" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="fD2-Dn-1VH"/>
+                            <constraint firstItem="0q5-hZ-baq" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="hON-jQ-0ak"/>
+                            <constraint firstItem="8Ik-9U-Hg4" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="i20-fK-J84"/>
+                            <constraint firstItem="Bos-Oi-8Uy" firstAttribute="top" secondItem="xmu-jd-7yn" secondAttribute="bottom" id="nH4-dA-XIl"/>
+                            <constraint firstItem="Bos-Oi-8Uy" firstAttribute="centerX" secondItem="0q5-hZ-baq" secondAttribute="centerX" id="oj8-Pk-5Az"/>
+                            <constraint firstItem="xmu-jd-7yn" firstAttribute="centerX" secondItem="M8E-BL-5Xn" secondAttribute="centerX" id="rCo-ow-uMh"/>
+                            <constraint firstItem="Rc0-a8-CG9" firstAttribute="top" secondItem="Bos-Oi-8Uy" secondAttribute="bottom" constant="5" id="wMP-j5-5MP"/>
+                            <constraint firstItem="8Ik-9U-Hg4" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="wu6-we-kY5"/>
+                            <constraint firstItem="UKr-N7-taq" firstAttribute="leading" secondItem="Egg-30-j05" secondAttribute="leading" constant="16" id="xq6-AN-Btg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Egg-30-j05"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nkh-KD-Q1k"/>
+                    <connections>
+                        <outlet property="nickamesLabel" destination="Rc0-a8-CG9" id="3gu-uF-dnf"/>
+                        <outlet property="politicalPartyLabel" destination="UKr-N7-taq" id="siT-oe-HMw"/>
+                        <outlet property="presidencyDatesLabel" destination="uFN-az-hQf" id="3hs-LB-RXY"/>
+                        <outlet property="presidentImageView" destination="xmu-jd-7yn" id="eJk-42-6gr"/>
+                        <outlet property="presidentNameLabel" destination="0q5-hZ-baq" id="SXM-eh-fBp"/>
+                        <outlet property="presidentNumberLabel" destination="8Ik-9U-Hg4" id="ihE-1t-bho"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VjO-re-iQn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="793" y="-591"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="seal" width="300" height="450"/>
+    </resources>
+</document>
